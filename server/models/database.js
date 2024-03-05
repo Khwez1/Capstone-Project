@@ -106,5 +106,7 @@ const logIn = async(emailAdd)=> {
     `, [emailAdd])
     return userPass
 }
-
-export { logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }
+const addToCart = async(userID)=>{
+    
+}
+export { addToCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }

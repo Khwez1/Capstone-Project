@@ -26,7 +26,7 @@ const auth = async(req,res,next) => {
         }
     })
 }
-
+// sign in feature
 const certify = async (req, res, next) => {
     const { firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile } = req.body;
     bcrypt.hash(userPass, 10, async (err, hash) => {

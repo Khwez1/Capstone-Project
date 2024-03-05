@@ -95,10 +95,14 @@ export default {
         res.send(await goGetUsers())
     },
     
-//Sign in and log in feature
+//Sign in feature
     postUser: async(req, res) => {
         const { firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile } = req.body;
         await goPostUser(firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile)
-        res.send(res.msg)
+        res.send({msg})
     },
+// log in feature
+    postUser: async(req,res)=> {
+        res.send({msg})
+    }
 }
