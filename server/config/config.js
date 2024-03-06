@@ -7,7 +7,7 @@ const pool = mysql.createPool({
     user:process.env.MYSQL_ADDON_USER,
     password:process.env.MYSQL_ADDON_PASSWORD,
     database:process.env.MYSQL_ADDON_DB,
-    multipleStatements: true,
+    multipleStatements: false,
     connectionLimit: 30
 }).promise()
 

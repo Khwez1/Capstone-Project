@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 //login feature
 const auth = async(req,res,next) => {
+
     const {emailAdd, Password} = req.body
     const hashedPassword = await logIn(emailAdd)
     bcrypt.compare(Password, hashedPassword, (err,result)=>{
@@ -26,25 +27,17 @@ const auth = async(req,res,next) => {
         }
     })
 }
-// sign in feature
-const certify = async (req, res, next) => {
-    const { firstName, lastName, userAge, Gender, userRole, emailAdd, Password } = req.body;
-    bcrypt.hash(Password, 10, async (err, hash) => {
-        if (err) throw err;
-        await goPostUser(firstName, lastName, userAge, Gender, userRole, emailAdd, hash);
-
-        // Generate JWT token
-        const token = jwt.sign({ email: emailAdd }, secretKey, { expiresIn: '1h' }); // Adjust expiry as needed
-
-        // Set the token in a cookie
-        res.cookie('token', token, { httpOnly: true });
-
-        res.send({
-            msg: "You have created an account"
-        })
-        
-        next();
-    });
+//
+const authenticate = (req,res,next) => {
+    let {cookie} = req.headers
+    let tokenInHeader = cookie && cookie.split('=')[1]
+    if(tokenInHeader===null) res.sendStatus(401)
+    console.log(tokenInHeader)
+    jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user)=>{
+        if(err)return res.sendStatus(403)
+        req.user = user
+        next()
+    })
 }
 
-export { auth, certify };
+export { auth, authenticate };

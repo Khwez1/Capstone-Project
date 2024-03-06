@@ -1,13 +1,12 @@
 import express from 'express';
 // import crypto from 'crypto'
 import {config} from 'dotenv';
-import { auth, certify } from '../server/middleware/middleware.js'
+import { auth , authenticate } from '../server/middleware/middleware.js'
 import cors from 'cors'
 import productsRouter from '../server/routes/products.js';
 import usersRouter from '../server/routes/users.js';
 import cookieParser from 'cookie-parser'
 import loginRouter from '../server/routes/login.js';
-import signinRouter from '../server/routes/signin.js';
 config()
 
 const PORT=process.env.MYSQL_ADDON_PORT || 6969;
@@ -31,13 +30,11 @@ app.use(express.static('public'))
 
 app.use(cookieParser())
 
-app.use('/products', productsRouter)
+app.use('/products', authenticate, productsRouter)
 
 app.use('/users', usersRouter)
 
 app.use('/login', auth, loginRouter)
-
-app.use('/signin', certify, signinRouter)
 
 app.listen (PORT,()=>{
     console.log(`this is listening on http://localhost:${PORT}`)
