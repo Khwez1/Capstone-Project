@@ -2,7 +2,7 @@ import mysql from 'mysql2'
 import{config} from 'dotenv'
 config()
 
-const pool=mysql.createPool({
+const pool = mysql.createPool({
     host:process.env.MYSQL_ADDON_HOST,
     user:process.env.MYSQL_ADDON_USER,
     password:process.env.MYSQL_ADDON_PASSWORD,
@@ -11,4 +11,4 @@ const pool=mysql.createPool({
     connectionLimit: 30
 }).promise()
 
-export default {pool} 
+export {pool} 

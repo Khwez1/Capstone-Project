@@ -1,4 +1,4 @@
-import  pool  from "../config/config.js"
+import  {pool}  from "../config/config.js"
 //Products table functions
 const goGetProducts = async () => {
     const [result] = await pool.query(`
@@ -23,11 +23,11 @@ const goGetProduct = async (id) => {
     return result;
 }
 
-const goPostProduct = async(prod_name, quantity, amount, category, ProdURL)=>{
+const goPostProduct = async(prodName, quantity, amount, category, prodUrl)=>{
     const [product] = await pool.query(`
-        INSERT INTO products(prodName, quantity, amount, category, ProdUrl) VALUES (?,?,?,?,?)
-    `,[prod_name, quantity, amount, category, ProdURL])
-    if (!prod_name || !quantity || !amount || !category || !ProdURL) {
+        INSERT INTO products(prodName, quantity, amount, category, prodUrl) VALUES (?,?,?,?,?)
+    `,[prodName, quantity, amount, category, prodUrl])
+    if (!prodName || !quantity || !amount || !category || !prodUrl) {
         throw error();
     }
     return goGetProducts()
@@ -41,15 +41,15 @@ const goDeleteProduct = async(id)=>{
     return goGetProducts()
 } 
 
-const goPatchProduct = async(prod_name, quantity, amount, category,ProdURL,id)=>{
+const goPatchProduct = async(prod_name, quantity, amount, category,prodUrl,id)=>{
     await pool.query(`
         UPDATE products
-        SET prodName = ?, quantity = ?, amount = ?, category = ?, ProdUrl=?
+        SET prodName = ?, quantity = ?, amount = ?, category = ?, prodUrl=?
         WHERE prodID = ?
-    `,[prod_name, quantity, amount, category,ProdURL,id])
+    `,[prod_name, quantity, amount, category,prodUrl,id])
     return goGetProducts()
 }
-//Users table 
+//Users table functions
 const goGetUsers= async()=>{
     const [result] = await pool.query(`
     SELECT * FROM users`)
@@ -70,12 +70,12 @@ const goGetUser = async(id)=>{
     return result
 }
 //Sign in function
-const goPostUser = async(firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile)=>{
+const goPostUser = async(firstName, lastName, userRole, emailAdd, Password, )=>{
     await pool.query(`
-    INSERT INTO users (firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile) 
-    VALUES (?,?,?,?,?,?,?,?);
-    `,[firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile])
-    if (!firstName || !lastName || !userAge || !Gender || !userRole || !emailAdd || !userPass || !userProfile){
+    INSERT INTO users (firstName, lastName, userRole, emailAdd, Password, ) 
+    VALUES (?,?,?,?,?);
+    `,[firstName, lastName, userRole, emailAdd, Password, ])
+    if (!firstName || !lastName || !userAge || !emailAdd || !Password){
         throw error();
     }
     return goGetUsers()
@@ -89,23 +89,25 @@ const goDeleteUser = async(id)=>{
     return goGetUsers()
 } 
 
-const goPatchUser = async(firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile, id)=>{
+const goPatchUser = async(firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id)=>{
     await pool.query(`
         UPDATE users
-        SET firstName = ?, lastName = ?, userAge = ?, Gender = ?, userRole = ?, emailAdd = ?, userPass = ?, userProfile = ?
+        SET firstName = ?, lastName = ?, userAge = ?, Gender = ?, userRole = ?, emailAdd = ?, Password = ?
         WHERE userID = ?
-    `,[firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile, id])
+    `,[firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id])
     return goGetUsers()
 }
 //login table function
 const logIn = async(emailAdd)=> {
-    const [[{userPass}]] = await pool.query(`
-    SELECT userPass 
+    const [[{Password}]] = await pool.query(`
+    SELECT Password 
     FROM users 
     WHERE emailAdd = ?
     `, [emailAdd])
-    return userPass
+    return Password
 }
+//cart table functions
+
 const addToCart = async(userID)=>{
     
 }

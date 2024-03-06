@@ -24,8 +24,8 @@ export default {
     
     postProduct: async(req,res)=>{
         try{
-            const { prod_name, quantity, amount, category, prodUrl } = req.body;
-            await goPostProduct(prod_name, quantity, amount, category, prodUrl);
+            const { prodName, quantity, amount, category, prodUrl } = req.body;
+            await goPostProduct(prodName, quantity, amount, category, prodUrl);
             res.send(await goGetProducts())
         } catch (error){
             console.error("Error adding product");
@@ -72,33 +72,27 @@ export default {
     patchUser: async(req,res)=>{
         const [user] = await goGetProduct(+req.params.id)
 
-        let {firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile} = req.body
+        let {firstName, lastName, userRole, emailAdd, Password} = req.body
 
         firstName ? firstName=firstName: {firstName} = user
 
         lastName ? lastName=lastName: {lastName} = user
 
-        userAge ? userAge=userAge: {userAge} = user
-
-        Gender ? Gender=Gender: {Gender} = user
-
         userRole ? userRole=userRole: {userRole} = user
 
         emailAdd ? emailAdd=emailAdd: {emailAdd} = user
 
-        userPass ? userPass=userPass: {userPass} = user
+        Password ? Password=Password: {Password} = user
 
-        userProfile ? userProfile=userProfile: {userProfile} = user
-
-        await goPatchUser(firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile, +req.params.id)
+        await goPatchUser(firstName, lastName, userRole, emailAdd, Password,  +req.params.id)
         
         res.send(await goGetUsers())
     },
     
 //Sign in feature
     postUser: async(req, res) => {
-        const { firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile } = req.body;
-        await goPostUser(firstName, lastName, userAge, Gender, userRole, emailAdd, userPass, userProfile)
+        const { firstName, lastName, userRole, emailAdd, Password } = req.body;
+        await goPostUser(firstName, lastName, userRole, emailAdd, Password)
         res.send({msg})
     },
 // log in feature

@@ -37,7 +37,7 @@ app.use('/users', usersRouter)
 
 app.use('/login', auth, loginRouter)
 
-app.use('/login', certify, signinRouter)
+app.use('/signin', certify, signinRouter)
 
 app.listen (PORT,()=>{
     console.log(`this is listening on http://localhost:${PORT}`)
