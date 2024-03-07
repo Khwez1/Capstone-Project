@@ -1,4 +1,4 @@
-import { goGetProducts, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser } from "../models/database.js";
+import { goGetProducts, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn } from "../models/database.js";
 export default {
 //products table functions
     getProducts: async (req, res) => {
@@ -96,7 +96,7 @@ export default {
         res.send(await goGetUsers());
     },
     
-//Sign in feature
+//Sign up feature
 postUser: async (req, res) => {
     const { firstName, lastName, userRole, emailAdd, Password } = req.body;
     try {
@@ -113,7 +113,30 @@ postUser: async (req, res) => {
     }
 },
 // log in feature
-    postUser: async(req,res)=> {
-        res.send({msg})
+    postLogIn: async(req,res)=> {
+        const {emailAdd, Password} = req.body;
+        await logIn(emailAdd, Password)
+        res.send()
+    },
+//cart table function
+postToCart: async (req, res, next) => {
+    // Get emailAdd from cookies
+    const emailAdd = req.cookies.emailAdd;
+
+    // Use a function to find the userID based on emailAdd
+    try {
+        const userId = await getUserIdFromDatabase(emailAdd);
+        
+        // Assuming productId and quantity are obtained from request body or query parameters
+        const { productId, quantity } = req.body;
+
+        // Insert product into cart table using userID and productId
+        await insertIntoCart(userId, productId, quantity);
+
+        res.send({ msg: 'Product added to cart successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send({ error: 'An error occurred while adding product to cart' });
     }
+}
 }

@@ -1,13 +1,13 @@
 import  {pool}  from "../config/config.js"
 //Products table functions
 const goGetProducts = async () => {
-    if (!result || result.length === 0){
-        throw error();
-    }
     const [result] = await pool.query(`
     SELECT * 
     FROM products
     `);
+    if (!result || result.length === 0){
+        throw error();
+    }
     return result;
 }
 
@@ -50,12 +50,12 @@ const goPatchProduct = async(prod_name, quantity, amount, category,prodUrl,id)=>
     return goGetProducts()
 }
 //Users table functions
-if (!result || result.length === 0){
-    throw error();
-}
 const goGetUsers= async()=>{
     const [result] = await pool.query(`
     SELECT * FROM users`)
+    if (!result || result.length === 0){
+        throw error();
+    }
     return result
 }
 
@@ -113,8 +113,29 @@ const logIn = async(emailAdd)=> {
     return Password
 }
 //cart table functions
+const goPostToCart = async (userID, productID, quantity) => {
+    // Insert new row into cart table with userID, productID, and quantity
+    await pool.query(`
+        INSERT INTO carts (userID, productID, quantity)
+        VALUES (?, ?, ?)
+    `, [userID, productID, quantity]);
+};
 
-const addToCart = async(userID)=>{
-    
-}
-export { addToCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }
+const getUserCart = async (userID) => {
+    // Retrieve cart contents for the user based on userID
+    const [cartItems] = await pool.query(`
+        SELECT * FROM carts WHERE userID = ?
+    `, [userID]);
+    return cartItems;
+};
+
+
+const removeFromCart = async (userID, productID) => {
+    // Remove a product from the user's cart
+    await pool.query(`
+        DELETE FROM carts
+        WHERE userID = ? AND productID = ?
+    `, [userID, productID]);
+};
+
+export { goPostToCart, getUserCart, removeFromCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }

@@ -12,10 +12,12 @@ const auth = async(req,res,next) => {
             const {emailAdd} = req.body
             const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: '1h'})
             
-            console.log(token);
+            console.log(emailAdd);
+
+            res.cookie('token', token,{ httpOnly:false, expiresIn:'1hr'});
+            
 
             res.send({
-                token: token,
                 msg: 'You have logged in! YAY!'
             })
 

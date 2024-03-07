@@ -5,6 +5,6 @@ const router = express.Router();
 
 router
     .route('/')
-        .post(controller.postUser)
+        .post(controller.postLogIn)
 
 export default router
