@@ -113,7 +113,7 @@ const logIn = async(emailAdd)=> {
     return Password
 };
 //cart table functions
-const goPostToCart = async (userID, productID, quantity) => {
+const goPostCart = async (userID, productID, quantity) => {
     // Insert new row into cart table with userID, productID, and quantity
     await pool.query(`
         INSERT INTO carts (userID, prodID, quantity)
@@ -121,7 +121,7 @@ const goPostToCart = async (userID, productID, quantity) => {
     `, [userID, productID, quantity]);
 };
 
-const getUserCart = async (userID) => {
+const goGetCart = async (userID) => {
     // Retrieve cart contents for the user based on userID
     const [cartItems] = await pool.query(`
         SELECT * FROM carts WHERE userID = ?
@@ -130,12 +130,12 @@ const getUserCart = async (userID) => {
 };
 
 
-const removeFromCart = async (userID, productID) => {
+const goDeleteCart = async (userID) => {
     // Remove a product from the user's cart
     await pool.query(`
         DELETE FROM carts
-        WHERE userID = ? AND productID = ?
-    `, [userID, productID]);
+        WHERE userID = ? 
+    `, [userID]);
 };
 
 const getUserIdFromDatabase = async (emailAdd) => {
@@ -147,4 +147,4 @@ const getUserIdFromDatabase = async (emailAdd) => {
     return userID
 };
 
-export { getUserIdFromDatabase, goPostToCart, getUserCart, removeFromCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }
+export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }

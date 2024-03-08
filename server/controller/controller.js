@@ -1,4 +1,4 @@
-import { goGetProducts, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn, goPostToCart, getUserIdFromDatabase } from "../models/database.js";
+import { goGetProducts, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn, goPostCart, getUserIdFromDatabase } from "../models/database.js";
 export default {
 //products table functions
     getProducts: async (req, res) => {
@@ -119,24 +119,36 @@ postUser: async (req, res) => {
         res.send()
     },
 //cart table function
-postToCart: async (req, res) => {
-    // Get emailAdd from cookies
-    const emailAdd = req.emailAdd;    
-    console.log(emailAdd);
-    // Use a function to find the userID based on emailAdd
-    // try {
+    postCart: async (req, res) => {
+        // Get emailAdd from cookies
+        const emailAdd = req.emailAdd;    
+        console.log(emailAdd);
+        // Use a function to find the userID based on emailAdd
+        try {
+            const userID = await getUserIdFromDatabase(emailAdd)
+            
+            // Assuming prodID and quantity are obtained from request body or query parameters
+            const { prodID, quantity } = req.body;
+
+            // Insert product into cart table using userID and prodID
+            await goPostCart(userID, prodID, quantity);
+
+            res.send({ msg: 'Product added to cart successfully' });
+        } catch (error) {
+            console.error('Error:', error);
+            res.status(500).send({ error: 'An error occurred while adding product to cart' });
+        }
+    },
+    getCart: async (req, res) => {
+        const emailAdd = req.emailAdd;    
+        console.log(emailAdd);
         const userID = await getUserIdFromDatabase(emailAdd)
-        
-        // Assuming prodID and quantity are obtained from request body or query parameters
-        const { prodID, quantity } = req.body;
-
-        // Insert product into cart table using userID and prodID
-        await goPostToCart(userID, prodID, quantity);
-
-        res.send({ msg: 'Product added to cart successfully' });
-    // } catch (error) {
-    //     console.error('Error:', error);
-    //     res.status(500).send({ error: 'An error occurred while adding product to cart' });
-    // }
+        res.send(await  goGetCart(userID));
+    },
+    deleteCart: async (req, res) => {
+        const emailAdd = req.emailAdd;    
+        console.log(emailAdd);
+        const userID = await getUserIdFromDatabase(emailAdd)
+        res.send(await  goDeleteCart(userID));
     }
 }

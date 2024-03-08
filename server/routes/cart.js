@@ -5,6 +5,7 @@ const router = express.Router();
 
 router
     .route('/')
-        .post(controller.postToCart)
-
+        .post(controller.postCart)
+        .get(controller.getCart)
+        .delete(controller.deleteCart)
 export default router
