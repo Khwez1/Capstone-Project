@@ -1,10 +1,9 @@
-import { goPostCart, getUserIdFromDatabase } from "../models/cart.js";
+import { goPostCart, getUserIdFromDatabase, goGetCart, goDeleteCart, goDeleteFromCart } from "../models/cart.js";
 export default {
 //cart table function
     postCart: async (req, res) => {
         // Get emailAdd from cookies
         const emailAdd = req.emailAdd;    
-        console.log(emailAdd);
         // Use a function to find the userID based on emailAdd
         try {
             const userID = await getUserIdFromDatabase(emailAdd)
@@ -23,14 +22,18 @@ export default {
     },
     getCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
-        console.log(emailAdd);
         const userID = await getUserIdFromDatabase(emailAdd)
         res.send(await  goGetCart(userID));
     },
     deleteCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
-        console.log(emailAdd);
         const userID = await getUserIdFromDatabase(emailAdd)
         res.send(await  goDeleteCart(userID));
+    },
+    DeleteFromCart: async (req, res) => {
+        const emailAdd = req.emailAdd;
+        const {prodID} = req.body;   
+        const userID = await getUserIdFromDatabase(emailAdd)
+        res.send(await  goDeleteFromCart(userID,prodID));
     }
 }

@@ -18,11 +18,19 @@ const goGetCart = async (userID) => {
 
 
 const goDeleteCart = async (userID) => {
-    // Remove a product from the user's cart
+    // Remove user's cart on checkout
     await pool.query(`
         DELETE FROM carts
         WHERE userID = ? 
     `, [userID]);
+};
+
+const removeFromCart = async (userID, productID) => {
+    // Remove a product from the user's cart
+    await pool.query(`
+        DELETE FROM carts
+        WHERE userID = ? AND productID = ?
+    `, [userID, productID]);
 };
 
 const getUserIdFromDatabase = async (emailAdd) => {
@@ -34,4 +42,4 @@ const getUserIdFromDatabase = async (emailAdd) => {
     return userID
 };
 
-export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart }
+export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, removeFromCart }
