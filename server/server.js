@@ -1,13 +1,14 @@
 import express from 'express';
 // import crypto from 'crypto'
 import {config} from 'dotenv';
-import { auth , authenticate } from '../server/middleware/middleware.js'
+import { authenticate } from '../server/middleware/authenticate.js'
 import cors from 'cors'
 import productsRouter from '../server/routes/products.js';
 import cartRouter from '../server/routes/cart.js'
 import usersRouter from '../server/routes/users.js';
 import cookieParser from 'cookie-parser'
 import loginRouter from '../server/routes/login.js';
+import { certificate } from './middleware/certificate.js';
 config()
 
 const PORT=process.env.MYSQL_ADDON_PORT || 6969;
@@ -37,7 +38,7 @@ app.use('/cart', authenticate, cartRouter)
 
 app.use('/users', usersRouter)
 
-app.use('/login', auth, loginRouter)
+app.use('/login', certificate, loginRouter)
 
 app.listen (PORT,()=>{
     console.log(`this is listening on http://localhost:${PORT}`)

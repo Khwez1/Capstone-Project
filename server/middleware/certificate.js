@@ -1,8 +1,8 @@
-import { logIn } from "../models/database.js";
+import { logIn } from "../models/users.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 //login feature
-const auth = async(req,res,next) => {
+const certificate = async(req,res,next) => {
 
     const {emailAdd, Password} = req.body
     const hashedPassword = await logIn(emailAdd)
@@ -29,18 +29,5 @@ const auth = async(req,res,next) => {
         }
     })
 }
-//
-const authenticate = (req,res,next) => {
-    let {cookie} = req.headers
-    let tokenInHeader = cookie && cookie.split('=')[1]
-    if(tokenInHeader===null) res.sendStatus(401)
-    console.log(tokenInHeader)
-    jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user)=>{
-        if(err)return res.sendStatus(403)
-        req.user = user
-        req.emailAdd = user.emailAdd;
-        next()
-    })
-}
 
-export { auth, authenticate };
+export { certificate };
