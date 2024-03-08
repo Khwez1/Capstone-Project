@@ -9,7 +9,7 @@ const goGetProducts = async () => {
         throw error();
     }
     return result;
-}
+};
 
 const goGetProduct = async (id) => {
     if (!id || isNaN(id) || id>result ){
@@ -21,7 +21,7 @@ const goGetProduct = async (id) => {
     WHERE prodID = ?`, [id]);
     // error handling, checking whether the id param matches the prodID
     return result;
-}
+};
 
 const goPostProduct = async(prodName, quantity, amount, category, prodUrl)=>{
     if (!prodName || !quantity || !amount || !category || !prodUrl) {
@@ -31,7 +31,7 @@ const goPostProduct = async(prodName, quantity, amount, category, prodUrl)=>{
         INSERT INTO products(prodName, quantity, amount, category, prodUrl) VALUES (?,?,?,?,?)
     `,[prodName, quantity, amount, category, prodUrl])
     return goGetProducts()
-}
+};
 
 const goDeleteProduct = async(id)=>{
     const [product] = await pool.query(`
@@ -39,7 +39,7 @@ const goDeleteProduct = async(id)=>{
         WHERE prodID = ?
     `,[id])
     return goGetProducts()
-} 
+};
 
 const goPatchProduct = async(prod_name, quantity, amount, category,prodUrl,id)=>{
     await pool.query(`
@@ -48,7 +48,7 @@ const goPatchProduct = async(prod_name, quantity, amount, category,prodUrl,id)=>
         WHERE prodID = ?
     `,[prod_name, quantity, amount, category,prodUrl,id])
     return goGetProducts()
-}
+};
 //Users table functions
 const goGetUsers= async()=>{
     const [result] = await pool.query(`
@@ -57,7 +57,7 @@ const goGetUsers= async()=>{
         throw error();
     }
     return result
-}
+};
 
 const goGetUser = async(id)=>{
     if (!id || isNaN(id) || id>result ){
@@ -68,7 +68,7 @@ const goGetUser = async(id)=>{
     FROM users
     WHERE userID = ?`,[id])
     return result
-}
+};
 //Sign in function
 const goPostUser = async (firstName, lastName, userRole, emailAdd, Password) => {
     if (!firstName || !lastName || !userRole || !emailAdd || !Password) {
@@ -93,7 +93,7 @@ const goDeleteUser = async(id)=>{
         WHERE UserID = ?
     `,[id])
     return goGetUsers()
-} 
+}; 
 
 const goPatchUser = async(firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id)=>{
     await pool.query(`
@@ -102,7 +102,7 @@ const goPatchUser = async(firstName, lastName, userAge, Gender, userRole, emailA
         WHERE userID = ?
     `,[firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id])
     return goGetUsers()
-}
+};
 //login table function
 const logIn = async(emailAdd)=> {
     const [[{Password}]] = await pool.query(`
@@ -111,12 +111,12 @@ const logIn = async(emailAdd)=> {
     WHERE emailAdd = ?
     `, [emailAdd])
     return Password
-}
+};
 //cart table functions
 const goPostToCart = async (userID, productID, quantity) => {
     // Insert new row into cart table with userID, productID, and quantity
     await pool.query(`
-        INSERT INTO carts (userID, productID, quantity)
+        INSERT INTO carts (userID, prodID, quantity)
         VALUES (?, ?, ?)
     `, [userID, productID, quantity]);
 };
@@ -138,4 +138,13 @@ const removeFromCart = async (userID, productID) => {
     `, [userID, productID]);
 };
 
-export { goPostToCart, getUserCart, removeFromCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }
+const getUserIdFromDatabase = async (emailAdd) => {
+    const [[{userID}]] = await pool.query(`
+    SELECT userID 
+    FROM users 
+    WHERE emailAdd = ?
+    `, [emailAdd])
+    return userID
+};
+
+export { getUserIdFromDatabase, goPostToCart, getUserCart, removeFromCart, logIn, goGetProduct, goPostProduct, goDeleteProduct, goPatchProduct, goGetProducts, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }

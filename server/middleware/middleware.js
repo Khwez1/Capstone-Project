@@ -12,7 +12,7 @@ const auth = async(req,res,next) => {
             const {emailAdd} = req.body
             const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: '1h'})
             
-            console.log(emailAdd);
+            console.log(token);
 
             res.cookie('token', token,{ httpOnly:false, expiresIn:'1hr'});
             
@@ -38,6 +38,7 @@ const authenticate = (req,res,next) => {
     jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user)=>{
         if(err)return res.sendStatus(403)
         req.user = user
+        req.emailAdd = user.emailAdd;
         next()
     })
 }
