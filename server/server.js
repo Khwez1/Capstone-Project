@@ -32,9 +32,9 @@ app.use(express.static('public'))
 
 app.use(cookieParser())
 
-app.use('/products', authenticate, productsRouter)
+app.use('/products',  productsRouter)
 
-app.use('/cart', authenticate, cartRouter)
+app.use('/cart',  cartRouter)
 
 app.use('/users', usersRouter)
 
