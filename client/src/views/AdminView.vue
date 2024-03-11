@@ -12,12 +12,12 @@
                 <th>ProdURL</th>
             </tr>
             <tbody v-for="item in $store.state.products" :key="item.id" >
-                <td>{{item.id}}</td>
-                <td>{{item.prod_name}}</td>
+                <td>{{item.prodID}}</td>
+                <td>{{item.prodName}}</td>
                 <td>{{item.quantity}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.category}}</td>
-                <td><img :src="item.ProdURL"></td>
+                <td><img :src="item.prodUrl"></td>
                 <button @click="editProd(item.id)">Edit</button>
                 <button @click="deleteProd(item.id)">Delete</button>
             </tbody>
