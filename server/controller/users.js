@@ -1,4 +1,4 @@
-import { goGetProduct, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn,  } from "../models/users.js";
+import { goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn, } from "../models/users.js";
 export default {
 //users table fuction
     getUsers: async(req,res)=>{
