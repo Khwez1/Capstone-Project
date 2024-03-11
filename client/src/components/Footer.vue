@@ -16,6 +16,7 @@ export default {
 </script>
 <style scoped>
 p{
+margin-top: 10px;
    text-align: center;
    color: white;
    font-weight: bold;

@@ -5,7 +5,15 @@
 </template>
 <script>
 export default {
-    
+    computed: {
+    getProducts(){
+      this.$store.dispatch('getProducts')
+    },
+  },
+  
+  mounted(){
+    this.getProducts
+  },
 }
 </script>
 <style scoped>
