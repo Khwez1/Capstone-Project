@@ -25,7 +25,7 @@ const goDeleteCart = async (userID) => {
     `, [userID]);
 };
 
-const removeFromCart = async (userID, productID) => {
+const goDeleteFromCart = async (userID, productID) => {
     // Remove a product from the user's cart
     await pool.query(`
         DELETE FROM carts
@@ -42,4 +42,4 @@ const getUserIdFromDatabase = async (emailAdd) => {
     return userID
 };
 
-export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, removeFromCart }
+export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, goDeleteFromCart }
