@@ -27,19 +27,10 @@ export default {
     },
     computed: {
         loginUser(){
-            console.log('test')
+            console.log(this.$data)
             this.$store.dispatch('loginUser',this.$data)
         },
     },
-    methods:{
-        //function that is created
-        //attached it to the submit button
-        
-        loginData(){
-            console.log('testing')
-            this.$store.dispatch('submitData', this.$data)
-        }
-    }
 }
 </script>
 <style scoped>
