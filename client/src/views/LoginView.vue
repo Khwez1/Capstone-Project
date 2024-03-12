@@ -1,22 +1,45 @@
 <template>
     <div class="login">
-        <h1>This is an login page</h1>
+        <h1>
+            This is an login page
+        </h1>
             <main>
                 <div class="card mt-5" style="width: 18rem;">
                     <h5 class="card-title mt-2">Log In</h5>
                     <div class="card-body">
-                        <input name="userRole" placeholder="userRole" type="text"></input>
-                        <input name="emailAdd" placeholder="emailAdd" type="text"></input>
-                        <input name="Password" placeholder="Password" type="text"></input>
-                        <button href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
+                        <!-- <input name="userRole" placeholder="userRole" type="text"></input> -->
+                        <input v-model="emailAdd" name="emailAdd" placeholder="emailAdd" type="text"></input>
+                        <input v-model="Password" name="Password" placeholder="Password" type="text"></input>
+                        <button @click="loginUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
                     </div>
+                    <h4>{{ $store.state.loggedIn }}</h4>
                 </div>
             </main>
     </div>
 </template>
 <script>
 export default {
-    
+    data() {
+    return{
+        emailAdd: null,
+        Password: null
+    }
+    },
+    computed: {
+        loginUser(){
+            console.log('test')
+            this.$store.dispatch('loginUser',this.$data)
+        },
+    },
+    methods:{
+        //function that is created
+        //attached it to the submit button
+        
+        loginData(){
+            console.log('testing')
+            this.$store.dispatch('submitData', this.$data)
+        }
+    }
 }
 </script>
 <style scoped>

@@ -18,8 +18,8 @@
                 <td>{{item.amount}}</td>
                 <td>{{item.category}}</td>
                 <td><img :src="item.prodUrl"></td>
-                <button @click="editProd(item.id)">Edit</button>
-                <button @click="deleteProd(item.id)">Delete</button>
+                <button @click="editProd(item.prodID)">Edit</button>
+                <button @click="deleteProd(item.prodID)">Delete</button>
             </tbody>
         </table>
     </div>

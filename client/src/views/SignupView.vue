@@ -5,11 +5,11 @@
             <div class="card mt-5" style="width: 18rem;">
                 <h5 class="card-title mt-2">Sign Up</h5>
                 <div class="card-body">
-                    <input name="firstName" placeholder="firstName" type="text"></input>
-                    <input name="lastName" placeholder="lastName" type="text"></input>
-                    <input name="userRole" placeholder="userRole" type="text"></input>
-                    <input name="emailAdd" placeholder="emailAdd" type="text"></input>
-                    <input name="Password" placeholder="Password" type="text"></input>
+                    <input v-model="firstName" name="firstName" placeholder="firstName" type="text"></input>
+                    <input v-model="lastName" name="lastName" placeholder="lastName" type="text"></input>
+                    <input v-model="userRole" name="userRole" placeholder="userRole" type="text"></input>
+                    <input v-modal="emailAdd" name="emailAdd" placeholder="emailAdd" type="text"></input>
+                    <input v-model="Password" name="Password" placeholder="Password" type="text"></input>
                     <button href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
                 </div>
             </div>
@@ -18,7 +18,28 @@
 </template>
 <script>
 export default {
-    
+    data() {
+        return {
+            firstName:'',
+            lastName:'',
+            userRole:'',
+            emailAdd:'',
+            Password:''
+        }
+    },
+    computed: {
+        registerUser(){
+            this.$store.dispatch('registerUser',this.$data)
+        },
+    },
+    methods: {
+        submitData(){
+           console.log(this.$data.email)
+           //this is the only place because that can handle asycronous functions
+           //the data is only being saved when it is being used
+           this.$store.dispatch('login',this.$data)
+        },
+    },
 }
 </script>
 <style scoped>

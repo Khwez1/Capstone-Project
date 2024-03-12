@@ -8,7 +8,7 @@
         <h5 class="card-title">{{ item.prodName }}</h5>
         <p class="card-text">{{ item.category }}</p>
         <p class="quantity">{{item.quantity}}</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <button @click="" class="btn btn-primary">Go somewhere</button>
       </div>
     </div>
   </div>

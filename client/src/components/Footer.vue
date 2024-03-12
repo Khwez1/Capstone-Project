@@ -1,7 +1,7 @@
 <template>
     <div class="container" id="footer">
         <div class="row justify-content-center fixed-bottom">
-            <p>Khwezi.All Rights Reserved.{{ currentYear }}</p>
+            <p>EventSpotter.All Rights Reserved.{{ currentYear }}</p>
         </div>
     </div>
 </template>
