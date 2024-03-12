@@ -24,7 +24,12 @@ const app=express()
 
 // console.log("Generated Secret Key:", secretKey);
 
-app.use(cors())
+app.use(cors(
+    { 
+      origin: 'http://localhost:8080',
+      credentials: true
+    }
+))
 
 app.use(express.json())
 
