@@ -18,6 +18,7 @@ const certificate = async(req,res,next) => {
             
 
             res.send({
+                token:token,
                 msg: 'You have logged in! YAY!'
             })
 

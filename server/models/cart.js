@@ -3,7 +3,7 @@ import  {pool}  from "../config/config.js"
 const goPostCart = async (userID, productID, quantity) => {
     // Insert new row into cart table with userID, productID, and quantity
     await pool.query(`
-        INSERT INTO carts (userID, prodID, quantity)
+        INSERT INTO cart (userID, prodID, quantity)
         VALUES (?, ?, ?)
     `, [userID, productID, quantity]);
 };
@@ -11,7 +11,7 @@ const goPostCart = async (userID, productID, quantity) => {
 const goGetCart = async (userID) => {
     // Retrieve cart contents for the user based on userID
     const [cartItems] = await pool.query(`
-        SELECT * FROM carts WHERE userID = ?
+        SELECT * FROM cart WHERE userID = ?
     `, [userID]);
     return cartItems;
 };
@@ -20,7 +20,7 @@ const goGetCart = async (userID) => {
 const goDeleteCart = async (userID) => {
     // Remove user's cart on checkout
     await pool.query(`
-        DELETE FROM carts
+        DELETE FROM cart
         WHERE userID = ? 
     `, [userID]);
 };
@@ -28,7 +28,7 @@ const goDeleteCart = async (userID) => {
 const goDeleteFromCart = async (userID, productID) => {
     // Remove a product from the user's cart
     await pool.query(`
-        DELETE FROM carts
+        DELETE FROM cart
         WHERE userID = ? AND productID = ?
     `, [userID, productID]);
 };

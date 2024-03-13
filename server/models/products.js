@@ -12,13 +12,13 @@ const goGetProducts = async () => {
 };
 
 const goGetProduct = async (id) => {
-    if (!id || isNaN(id) || id>result ){
-        throw error();
-    }
     const [result] = await pool.query(`
     SELECT * 
     FROM products
     WHERE prodID = ?`, [id]);
+    if (!id || isNaN(id) || id>result ){
+        throw error();
+    }
     // error handling, checking whether the id param matches the prodID
     return result;
 };
