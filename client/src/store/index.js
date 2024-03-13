@@ -9,6 +9,7 @@ const baseUrl = 'https://capstone-project-fl4x.onrender.com'
 
 export default createStore({
   state: {
+    product:[],
     products: [],
     cart:[],
     loggedIn: false
@@ -21,6 +22,9 @@ export default createStore({
   mutations: {
     setProducts(state, data) {
       state.products = data;
+    },
+    setProduct(state, data) {
+      state.product = data;
     },
     setCart(state, data) {
       state.cart = data;
@@ -39,9 +43,10 @@ export default createStore({
         console.error('Error fetching products:', error);
       }
     },
-    async getProduct({commit}){
-      const {data} =  await axios.get(baseUrl+'/products')
-      commit("setProducts", data);
+    async getProduct({commit},prodID){
+      const {data} =  await axios.get(baseUrl+'/products/'+prodID)
+      console.log(data);
+      commit("setProduct", data);
     },
     async addProduct({commit},newProduct){
       const {data} = await axios.post(baseUrl+'/products',newProduct)

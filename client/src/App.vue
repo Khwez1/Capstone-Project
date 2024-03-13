@@ -14,5 +14,7 @@ export default {
 }
 </script>
 <style scoped>
-
+Footer{
+  margin-top: 10px;
+}
 </style>

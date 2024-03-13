@@ -2,6 +2,28 @@
     <div class="admin">
         <h1>This is an admin page</h1>
         <br>
+        <div class="container ">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">prodName</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="firstName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">quantity</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="lastName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">amount</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">category</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="emailAdd">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" placeholder="Password" class="form-label">ProdUrl</label>
+                <textarea placeholder="ProdUrl" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+            </div>
+        </div>
         <table class="table">
             <tr class="thead">
                 <th>id</th>
@@ -17,16 +39,74 @@
                 <td>{{item.quantity}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.category}}</td>
-                <td><img :src="item.prodUrl"></td>
+                <td><img :src="item.prodUrl" style="height: 150px;width: 200px;"></td>
                 <button @click="editProd(item.prodID)">Edit</button>
                 <button @click="deleteProd(item.prodID)">Delete</button>
             </tbody>
         </table>
+        <div class="container ">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">firstName</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="firstName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">lastName</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="lastName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">userRole</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">emailAdd</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="emailAdd">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" placeholder="Password" class="form-label">Password</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 export default {
-    
+    data(){
+    return{
+      prod_name: null,
+      quantity:null,
+      amount:null,
+      category:null,
+      ProdURL:null
+    }
+  },
+  methods: {
+    addProduct(){
+      this.$store.dispatch('addProduct',this.$data)
+    },
+
+    deleteProd(id){
+      this.$store.dispatch('deleteProd',id)
+    },
+    editProd(id){
+      let edit = {
+        id:id,
+        prod_name: this.prod_name,
+        quantity: this.quantity,
+        amount:this.amount,
+        category:this.category,
+        ProdURL:this.ProdURL
+      }
+      this.$store.dispatch('editProd',edit)
+    }
+  },
+  computed: {
+    getProducts(){
+      this.$store.dispatch('getProducts')
+    },
+  },
+  mounted() {
+    this.getProducts
+  },
 }
 </script>
 <style scoped>
