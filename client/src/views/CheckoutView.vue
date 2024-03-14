@@ -1,5 +1,5 @@
 <template>
-    <div class="checkout">
+    <div id="checkout">
         <h1>This is an checkout page</h1>
     </div>
 </template>

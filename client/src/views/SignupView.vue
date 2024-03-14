@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <div id="signup">
         <h1>This is an signup page</h1>
         <main>
             <div class="card mt-5" style="width: 18rem;">
@@ -62,7 +62,7 @@ input{
     flex-wrap: wrap;
     justify-content: center;
 }
-.signup{
+#signup{
     text-align: center;
 }
 h5{

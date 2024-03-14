@@ -1,5 +1,5 @@
 <template>
-    <div class="contact">
+    <div id="contact">
         <h1>This is an contact page</h1>
         <div class="row justify-content-center">
             <div class="col-md-6">

@@ -12,6 +12,8 @@ export default createStore({
     product:[],
     products: [],
     cart:[],
+    user:[],
+    users:[],
     loggedIn: false
   },
   getters: {
@@ -60,6 +62,12 @@ export default createStore({
       const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
       commit("setProducts", data);
     },
+    //user 
+    async getUser({commit},prodID){
+      const {data} =  await axios.get(baseUrl+'/products')
+      console.log(data);
+      commit("setUser", data);
+    },
     //Sign Up and Log In
     async loginUser({commit}, currentUser){
       let {data} = await axios.post(baseUrl + '/login', currentUser)
@@ -79,11 +87,11 @@ export default createStore({
     },
     //cart
     async addCart({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/products',newProduct)
+      const {data} = await axios.post(baseUrl+'/cart',newProduct)
       commit("setCart",alert(data.msg));
      },
      async getCart({commit}){
-      const {data} =  await axios.get(baseUrl+'/products')
+      const {data} =  await axios.get(baseUrl+'/cart')
       commit("setCart",data);
      }
   },

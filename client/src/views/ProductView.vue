@@ -1,5 +1,5 @@
 <template>
-  <div v-for="item in $store.state.product" :key="item.prodID" class="justify-content-center" >
+  <div v-for="item in $store.state.product" :key="item.prodID" class="justify-content-center" id="product" >
     <img
       class="card-img-top"
       :src="item.prodUrl"

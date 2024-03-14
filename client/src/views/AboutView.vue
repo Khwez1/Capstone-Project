@@ -1,5 +1,5 @@
 <template>
-  <div class="about mb-3">
+  <div id="about" class="mb-3">
     <h1>Welcome to EventSpotter!</h1>
       <p>
         At EventSpotter, we're passionate about bringing people together to experience unforgettable events and create lasting memories. Whether you're a music lover, sports enthusiast, or someone who simply enjoys exploring new activities, EventSpotter is your go-to platform for discovering and booking exciting events near you.
