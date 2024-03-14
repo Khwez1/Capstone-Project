@@ -9,14 +9,11 @@ const goGetUsers= async()=>{
     return result
 };
 
-const goGetUser = async(id)=>{
-    if (!id || isNaN(id) || id>result ){
-        throw error();
-    }
+const goGetUser = async(emailAdd)=>{
     const [result] = await pool.query(`
     SELECT * 
     FROM users
-    WHERE userID = ?`,[id])
+    WHERE emailAdd = ?`,[emailAdd])
     return result
 };
 //Sign in function

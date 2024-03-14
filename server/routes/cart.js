@@ -8,4 +8,5 @@ router
         .post(controller.postCart)
         .get(controller.getCart)
         .delete(controller.deleteCart)
+        .delete(controller.DeleteFromCart)
 export default router

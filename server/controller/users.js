@@ -6,7 +6,8 @@ export default {
     },
 
     getUser: async(req,res)=>{
-        res.send(await goGetUser(+req.params.id))
+        const emailAdd = req.emailAdd;
+        res.send(await goGetUser(emailAdd))
     },
 
     deleteUser: async(req,res)=>{
