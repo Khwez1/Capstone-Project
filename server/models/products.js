@@ -23,13 +23,13 @@ const goGetProduct = async (id) => {
     return result;
 };
 
-const goPostProduct = async(prodName, quantity, amount, category, prodUrl)=>{
-    if (!prodName || !quantity || !amount || !category || !prodUrl) {
+const goPostProduct = async(prodName, quantity, amount, description, date, category, prodUrl)=>{
+    if (!prodName || !quantity || !amount || !description || !date || !category || !prodUrl) {
         throw error();
     }
     const [product] = await pool.query(`
-        INSERT INTO products(prodName, quantity, amount, category, prodUrl) VALUES (?,?,?,?,?)
-    `,[prodName, quantity, amount, category, prodUrl])
+        INSERT INTO products(prodName, quantity, amount, description, date, category, prodUrl) VALUES (?,?,?,?,?,?,?)
+    `,[prodName, quantity, amount, description, date, category, prodUrl])
     return goGetProducts()
 };
 

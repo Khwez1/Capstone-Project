@@ -23,14 +23,14 @@ export default {
     },
     
     postProduct: async(req,res)=>{
-        try{
-            const { prodName, quantity, amount, category, prodUrl } = req.body;
-            await goPostProduct(prodName, quantity, amount, category, prodUrl);
+        // try{
+            const { prodName, quantity, amount, description, date, category, prodUrl } = req.body;
+            await goPostProduct(prodName, quantity, amount, description, date, category, prodUrl);
             res.send(await goGetProducts())
-        } catch (error){
-            console.error("Error adding product");
-                res.status(404).json({msg: "Couldn't add Product"})
-        }
+        // } catch (error){
+        //     console.error("Error adding product");
+        //         res.status(404).json({msg: "Couldn't add Product"})
+        // }
     },
 
     deleteProduct: async(req,res)=>{
