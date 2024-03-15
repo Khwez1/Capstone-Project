@@ -1,4 +1,5 @@
 import { goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn, } from "../models/users.js";
+import bcrypt from 'bcrypt';
 export default {
 //users table fuction
     getUsers: async(req,res)=>{
