@@ -101,7 +101,7 @@ export default {
     editProd(prodID){
       let edit = {
         id:prodID,
-        prod_name: this.prod_name,
+        prodName: this.prodName,
         quantity: this.quantity,
         amount:this.amount,
         description:this.description,
