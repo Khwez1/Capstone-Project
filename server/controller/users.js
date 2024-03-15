@@ -46,8 +46,10 @@ export default {
 postUser: async (req, res) => {
     const { firstName, lastName, userRole, emailAdd, Password } = req.body;
     try {
-        await bcrypt.hash(Password, 10, async(err, hash)=> {
-            if(err) throw err});
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(Password, 10);
+
+        // Call the function to post user information to the database
         await goPostUser(firstName, lastName, userRole, emailAdd, hashedPassword);
         
         res.send({
