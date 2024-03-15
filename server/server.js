@@ -39,9 +39,9 @@ app.use(cookieParser())
 
 app.use('/products', productsRouter)
 
-app.use('/cart', authenticate, cartRouter)
+app.use('/cart', cartRouter)
 
-app.use('/users', authenticate, usersRouter)
+app.use('/users', usersRouter)
 
 app.use('/login', certificate, loginRouter)
 
