@@ -116,15 +116,15 @@ export default {
       prodUrl:null
     }
   },
-  // data(){
-  //   return{
-  //     firstName:null,
-  //     lastName:null,
-  //     userRole:null,
-  //     emailAdd:null,
-  //     Password:null
-  //   }
-  // },
+  data(){
+    return{
+      firstName:null,
+      lastName:null,
+      userRole:null,
+      emailAdd:null,
+      Password:null
+    }
+  },
   methods: {
     deleteProd(prodID){
       this.$store.dispatch('deleteProd',prodID)
@@ -150,14 +150,14 @@ export default {
     addProduct(){
       console.log(this.$data);
       this.$store.dispatch('addProduct',this.$data)
+    },
+    getUsers(){
+      this.$store.dispatch('getUsers')
     }
-    // getUsers(){
-    //   this.$store.dispatch('getUsers')
-    // }
   },
   mounted() {
     this.getProducts
-    // this.getUsers
+    this.getUsers
   }
 }
 </script>
