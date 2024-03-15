@@ -50,10 +50,16 @@ export default createStore({
       console.log(data);
       commit("setProduct", data);
     },
-    async addProduct({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/products',newProduct)
-      commit("setProducts", data);
-     },
+    async addProduct({ commit }, newProduct) {
+      try {
+        let {data} = await axios.post(baseUrl + '/products', newProduct)
+        commit ('setProducts', data)
+        console.log(data);
+      }catch (error) {
+        console.error('Error adding Product:', error)
+      }
+      // window.location.reload()
+    },
      async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
       commit("setProducts", data);

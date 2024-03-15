@@ -24,7 +24,7 @@
               <input v-model="prodUrl" placeholder="prodUrl" class="form-control" id="exampleFormControlTextarea1" rows="1"></input>
             </div>
           </div>
-          <div class="d-flex justify-content-center" style="text-align: center;"><button>Add</button></div>
+          <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addProduct">Add</button></div>
           <table class="table">
               <tr class="thead">
                   <th>id</th>
@@ -81,10 +81,6 @@ export default {
     }
   },
   methods: {
-    addProduct(){
-      this.$store.dispatch('addProduct',this.$data)
-    },
-
     deleteProd(id){
       this.$store.dispatch('deleteProd',id)
     },
@@ -104,6 +100,9 @@ export default {
     getProducts(){
       this.$store.dispatch('getProducts')
     },
+    addProduct(){
+      this.$store.dispatch('addProduct',this.$data)
+    }
   },
   mounted() {
     this.getProducts
