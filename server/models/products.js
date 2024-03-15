@@ -41,12 +41,12 @@ const goDeleteProduct = async(id)=>{
     return goGetProducts()
 };
 
-const goPatchProduct = async(prod_name, quantity, amount, category,prodUrl,id)=>{
+const goPatchProduct = async(prod_name, quantity, amount, description, date, category, prodUrl,id)=>{
     await pool.query(`
         UPDATE products
-        SET prodName = ?, quantity = ?, amount = ?, category = ?, prodUrl=?
+        SET prodName = ?, quantity = ?, amount = ?, description = ?, date = ?, category = ?, prodUrl=?
         WHERE prodID = ?
-    `,[prod_name, quantity, amount, category,prodUrl,id])
+    `,[prod_name, quantity, amount, description, date, category, prodUrl, id])
     return goGetProducts()
 };
 
