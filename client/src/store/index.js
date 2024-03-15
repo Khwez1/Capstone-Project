@@ -33,6 +33,12 @@ export default createStore({
     },
     setLogged(state,payload){
       state.loggedIn = payload
+    },
+    setUsers(state,data){
+      state.users = data;
+    },
+    setUser(state,data){
+      state.user = data;
     }
   },
   actions: {
@@ -68,9 +74,14 @@ export default createStore({
       const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
       commit("setProducts", data);
     },
-    //user 
+    //users 
+    async getUsers({commit}){
+      const {data} =  await axios.get(baseUrl+'/users')
+      console.log(data);
+      commit("setUsers", data);
+    },
     async getUser({commit},prodID){
-      const {data} =  await axios.get(baseUrl+'/products')
+      const {data} =  await axios.get(baseUrl+'/users/'+prodID)
       console.log(data);
       commit("setUser", data);
     },

@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addProduct">Add</button></div>
-          <table class="table">
+          <table class="table products">
               <tr class="thead">
                   <th>id</th>
                   <th>prod_name</th>
@@ -79,6 +79,28 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
             </div>
           </div>
+          <table class="table">
+              <tr class="thead">
+                <th>userID</th>
+                <th>firstname</th>
+                <th>lastName</th>
+                <th>userRole</th>
+                <th>emailAdd</th>
+                <th>Password</th>
+              </tr>
+              <tbody v-for="user in $store.state.users" :key="user.userID" >
+                <td>{{user.userID}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.userRole}}</td>
+                <td>{{user.emailAdd}}</td>
+                <td>{{user.Password}}</td>
+                <td>{{user.category}}</td>
+                <td><img :src="user.prodUrl" style="height: 150px;width: 200px;"></td>
+                <td><button @click="editProd(user.userID)">Edit</button></td>
+                <td><button @click="deleteProd(user.userID)">Delete</button></td>
+              </tbody>
+          </table>
       </div>
 </template>
 <script>
@@ -94,6 +116,15 @@ export default {
       prodUrl:null
     }
   },
+  // data(){
+  //   return{
+  //     firstName:null,
+  //     lastName:null,
+  //     userRole:null,
+  //     emailAdd:null,
+  //     Password:null
+  //   }
+  // },
   methods: {
     deleteProd(prodID){
       this.$store.dispatch('deleteProd',prodID)
@@ -120,10 +151,14 @@ export default {
       console.log(this.$data);
       this.$store.dispatch('addProduct',this.$data)
     }
+    // getUsers(){
+    //   this.$store.dispatch('getUsers')
+    // }
   },
   mounted() {
     this.getProducts
-  },
+    // this.getUsers
+  }
 }
 </script>
 <style scoped>
