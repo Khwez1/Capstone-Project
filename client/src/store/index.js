@@ -66,7 +66,7 @@ export default createStore({
       }
       // window.location.reload()
     },
-     async deleteProd({commit},id){
+    async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
       commit("setProducts", data);
     },
@@ -84,6 +84,19 @@ export default createStore({
       const {data} =  await axios.get(baseUrl+'/users/'+prodID)
       console.log(data);
       commit("setUser", data);
+    },
+    async addUser({ commit }, newUser) {
+      try {
+        let {data} = await axios.post(baseUrl + '/users', newUser)
+        commit ('setUsers', data)
+        console.log(data);
+      }catch (error) {
+        console.error('Error adding Product:', error)
+      }
+    },
+    async deleteUser({commit},userID){
+      const {data} = await axios.delete(baseUrl+'/users/'+userID)
+      commit("setUsers", data);
     },
     //Sign Up and Log In
     async loginUser({commit}, currentUser){

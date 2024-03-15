@@ -60,26 +60,27 @@
           <div class="container ">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">firstName</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="firstName">
+                <input v-model="firstName" type="email" class="form-control" id="exampleFormControlInput1" placeholder="firstName">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">lastName</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="lastName">
+                <input v-model="lastName" type="email" class="form-control" id="exampleFormControlInput1" placeholder="lastName">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">userRole</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
+                <input v-model="userRole" type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">emailAdd</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="emailAdd">
+                <input v-model="emailAdd" type="email" class="form-control" id="exampleFormControlInput1" placeholder="emailAdd">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" placeholder="Password" class="form-label">Password</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                <input v-model="Password" class="form-control" id="exampleFormControlTextarea1" rows="1"></input>
             </div>
+            <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addUser">Add</button></div>
           </div>
-          <table class="table">
+          <table class="mb-5">
               <tr class="thead">
                 <th>userID</th>
                 <th>firstname</th>
@@ -95,10 +96,8 @@
                 <td>{{user.userRole}}</td>
                 <td>{{user.emailAdd}}</td>
                 <td>{{user.Password}}</td>
-                <td>{{user.category}}</td>
-                <td><img :src="user.prodUrl" style="height: 150px;width: 200px;"></td>
-                <td><button @click="editProd(user.userID)">Edit</button></td>
-                <td><button @click="deleteProd(user.userID)">Delete</button></td>
+                <td><button @click="editUser(user.userID)">Edit</button></td>
+                <td><button @click="deleteUser(user.userID)">Delete</button></td>
               </tbody>
           </table>
       </div>
@@ -129,6 +128,9 @@ export default {
     deleteProd(prodID){
       this.$store.dispatch('deleteProd',prodID)
     },
+    deleteUser(userID){
+      this.$store.dispatch('deleteUser',userID)
+    },
     editProd(prodID){
       let edit = {
         id:prodID,
@@ -153,7 +155,11 @@ export default {
     },
     getUsers(){
       this.$store.dispatch('getUsers')
-    }
+    },
+    addUser(){
+      console.log(this.$data);
+      this.$store.dispatch('addUser',this.$data)
+    },
   },
   mounted() {
     this.getProducts
