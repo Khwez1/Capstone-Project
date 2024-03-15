@@ -15,20 +15,27 @@
         Back
       </button>
     </div>
+    <div>
+      <input type="button" value="0">
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ProductView",
   computed: {
-      getproduct() {
-        this.$store.dispatch("getProduct", this.$route.params.prodID);
-      },
+    getproduct() {
+      this.$store.dispatch("getProduct", this.$route.params.prodID);
     },
-    mounted() {
-      this.getproduct; // Corrected the function invocation
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1); 
     }
+  },
+  mounted() {
+    this.getproduct; // Corrected the function invocation
+  }
 };
 </script>
 

@@ -142,7 +142,18 @@ export default {
         category:this.category,
         ProdUrl:this.ProdUrl
       }
-      this.$store.dispatch('editProd',edit)
+      this.$store.dispatch('editUser',edit)
+    },
+  editUser(userID){
+      let edit = {
+        id:userID,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        userRole: this,userRole,
+        emailAdd: this.emailAdd,
+        Password: this.Password
+      }
+      this.$store.dispatch('editUser',edit)
     }
   },
   computed: {

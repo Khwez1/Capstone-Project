@@ -94,6 +94,10 @@ export default createStore({
         console.error('Error adding Product:', error)
       }
     },
+    async editUser({commit},update){
+      const {data} = await axios.patch(baseUrl+'/users/'+update.id,update)
+      commit("setUsers", data);
+    },
     async deleteUser({commit},userID){
       const {data} = await axios.delete(baseUrl+'/users/'+userID)
       commit("setUsers", data);
