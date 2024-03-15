@@ -16,6 +16,14 @@
               <input v-model="amount" type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
             </div>
             <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">description</label>
+              <input v-model="description" type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">date</label>
+              <input v-model="date" type="email" class="form-control" id="exampleFormControlInput1" placeholder="userRole">
+            </div>
+            <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">category</label>
               <input v-model="category" type="email" class="form-control" id="exampleFormControlInput1" placeholder="emailAdd">
             </div>
@@ -31,14 +39,18 @@
                   <th>prod_name</th>
                   <th>quantity</th>
                   <th>amount</th>
+                  <th>description</th>
+                  <th>date</th>
                   <th>category</th>
                   <th>ProdURL</th>
               </tr>
-              <tbody v-for="item in $store.state.products" :key="item.id" >
+              <tbody v-for="item in $store.state.products" :key="item.prodID" >
                   <td>{{item.prodID}}</td>
                   <td>{{item.prodName}}</td>
                   <td>{{item.quantity}}</td>
                   <td>{{item.amount}}</td>
+                  <td>{{item.description}}</td>
+                  <td>{{item.date}}</td>
                   <td>{{item.category}}</td>
                   <td><img :src="item.prodUrl" style="height: 150px;width: 200px;"></td>
                   <td><button @click="editProd(item.prodID)">Edit</button></td>
@@ -76,22 +88,26 @@ export default {
       prodName: null,
       quantity:null,
       amount:null,
+      description:null,
+      date:null,
       category:null,
       prodUrl:null
     }
   },
   methods: {
-    deleteProd(id){
-      this.$store.dispatch('deleteProd',id)
+    deleteProd(prodID){
+      this.$store.dispatch('deleteProd',prodID)
     },
-    editProd(id){
+    editProd(prodID){
       let edit = {
-        id:id,
+        id:prodID,
         prod_name: this.prod_name,
         quantity: this.quantity,
         amount:this.amount,
+        description:this.description,
+        date:this.date,
         category:this.category,
-        ProdURL:this.ProdURL
+        ProdUrl:this.ProdUrl
       }
       this.$store.dispatch('editProd',edit)
     }
@@ -101,6 +117,7 @@ export default {
       this.$store.dispatch('getProducts')
     },
     addProduct(){
+      console.log(this.$data);
       this.$store.dispatch('addProduct',this.$data)
     }
   },
