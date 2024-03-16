@@ -20,6 +20,16 @@ export default {
 
         let { firstName, lastName, userRole, emailAdd, Password } = req.body;
 
+        firstName ? firstName=firstName: {firstName} = user
+
+        lastName ? lastName=lastName: {lastName} = user
+
+        userRole ? userRole=userRole: {userRole} = user
+
+        emailAdd ? emailAdd=emailAdd: {emailAdd} = user
+        
+        Password ? Password=Password: {Password} = user
+
         // Check if the password field is present in the request body
         if (Password) {
             // If present, hash the password
