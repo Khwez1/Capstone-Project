@@ -80,7 +80,7 @@ export default createStore({
       commit("setUsers", data);
     },
     async getUser({commit},email){
-      const {data} =  await axios.get(baseUrl+'/users/'+email)
+      const {data} =  await axios.get(baseUrl+'/users')
       console.log(data);
       commit("setUser", data);
     },
