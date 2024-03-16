@@ -16,6 +16,13 @@ const goGetUser = async(emailAdd)=>{
     WHERE emailAdd = ?`,[emailAdd])
     return result
 };
+const goGetUserID = async(id)=>{
+    const [result] = await pool.query(`
+    SELECT * 
+    FROM users
+    WHERE userID = ?`,[id])
+    return result
+};
 //Sign in function
 const goPostUser = async (firstName, lastName, userRole, emailAdd, Password) => {
     if (!firstName || !lastName || !userRole || !emailAdd || !Password) {
@@ -60,4 +67,4 @@ const logIn = async(emailAdd)=> {
     return Password
 };
 
-export {  logIn, goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser }
+export {  logIn, goGetUsers, goGetUser, goGetUserID, goPostUser, goDeleteUser, goPatchUser }
