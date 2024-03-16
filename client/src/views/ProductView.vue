@@ -8,6 +8,9 @@
     <h1 class="text-white">{{ item.prodName }}</h1>
     <div>
       <p>Amount: R{{ item.amount }}</p>
+      <button>
+        
+      </button>
       <button
         class="btn btn-danger mx-5 w-50 text-black bg-white-subtle p-1"
         @click="goBack"

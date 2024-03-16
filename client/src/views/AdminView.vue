@@ -149,7 +149,7 @@ export default {
         id:userID,
         firstName: this.firstName,
         lastName: this.lastName,
-        userRole: this,userRole,
+        userRole: this.userRole,
         emailAdd: this.emailAdd,
         Password: this.Password
       }

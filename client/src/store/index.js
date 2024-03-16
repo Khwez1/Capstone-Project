@@ -80,10 +80,14 @@ export default createStore({
       console.log(data);
       commit("setUsers", data);
     },
-    async getUser({commit},prodID){
-      const {data} =  await axios.get(baseUrl+'/users/'+prodID)
+    async getUser({commit},email){
+      const {data} =  await axios.get(baseUrl+'/users/'+email)
       console.log(data);
       commit("setUser", data);
+    },
+    async editUser({commit},update){
+      const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
+      commit("setUsers", data);
     },
     async addUser({ commit }, newUser) {
       try {
