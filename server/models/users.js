@@ -16,7 +16,7 @@ const goGetUser = async(emailAdd)=>{
     WHERE emailAdd = ?`,[emailAdd])
     return result
 };
-const goGetUserID = async(id)=>{
+const goGetUserByID = async(id)=>{
     const [result] = await pool.query(`
     SELECT * 
     FROM users
@@ -67,4 +67,13 @@ const logIn = async(emailAdd)=> {
     return Password
 };
 
-export {  logIn, goGetUsers, goGetUser, goGetUserID, goPostUser, goDeleteUser, goPatchUser }
+const getUserInfoFromDatabase = async (emailAdd) => {
+    const [[result]] = await pool.query(`
+    SELECT * 
+    FROM users 
+    WHERE emailAdd = ?
+    `, [emailAdd])
+    return result
+};
+
+export {  logIn, goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, getUserInfoFromDatabase }

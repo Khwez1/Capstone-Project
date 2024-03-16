@@ -1,4 +1,4 @@
-import { goPostCart, getUserIdFromDatabase, goGetCart, goDeleteCart, goDeleteFromCart } from "../models/cart.js";
+import { goPostCart, getUserIdFromDatabase, goGetCart, goDeleteCart, goDeleteFromCart, goGetCarts } from "../models/cart.js";
 export default {
 //cart table function
     postCart: async (req, res) => {
@@ -20,6 +20,9 @@ export default {
             res.status(500).send({ error: 'An error occurred while adding product to cart' });
         }
     },
+    getCarts: async(req,res)=>{
+        res.send(await goGetCarts())
+    },
     getCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
         const userID = await getUserIdFromDatabase(emailAdd)
@@ -28,7 +31,7 @@ export default {
     deleteCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
         const userID = await getUserIdFromDatabase(emailAdd)
-        res.send(await  goDeleteCart(userID));
+        res.send(await goDeleteCart(userID));
     },
     DeleteFromCart: async (req, res) => {
         const emailAdd = req.emailAdd;

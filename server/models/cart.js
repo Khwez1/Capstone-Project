@@ -16,6 +16,15 @@ const goGetCart = async (userID) => {
     return cartItems;
 };
 
+const goGetCarts= async()=>{
+    const [result] = await pool.query(`
+    SELECT * FROM cart`)
+    if (!result || result.length === 0){
+        throw error();
+    }
+    return result
+};
+
 
 const goDeleteCart = async (userID) => {
     // Remove user's cart on checkout
@@ -42,4 +51,4 @@ const getUserIdFromDatabase = async (emailAdd) => {
     return userID
 };
 
-export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, goDeleteFromCart }
+export { getUserIdFromDatabase, goPostCart, goGetCart, goDeleteCart, goDeleteFromCart, goGetCarts }

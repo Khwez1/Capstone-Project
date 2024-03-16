@@ -1,4 +1,4 @@
-import { goGetUsers, goGetUser, goPostUser, goDeleteUser, goPatchUser, logIn, } from "../models/users.js";
+import { goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, logIn, } from "../models/users.js";
 import bcrypt from 'bcrypt';
 export default {
 //users table fuction
@@ -16,7 +16,7 @@ export default {
     },
 
     patchUser: async (req, res) => {
-        const [user] = await goGetProduct(+req.params.id);
+        const [user] = await goGetUserByID(+req.params.id);
 
         let { firstName, lastName, userRole, emailAdd, Password } = req.body;
 
@@ -28,8 +28,6 @@ export default {
 
         emailAdd ? emailAdd=emailAdd: {emailAdd} = user
         
-        Password ? Password=Password: {Password} = user
-
         // Check if the password field is present in the request body
         if (Password) {
             // If present, hash the password
