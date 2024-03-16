@@ -100,27 +100,23 @@
                 <td><button @click="deleteUser(user.userID)">Delete</button></td>
               </tbody>
           </table>
-          <!-- <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addUser">Add</button></div>
+          <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addUser">Add</button></div>
           <table class="mb-5">
               <tr class="thead">
+                <th>orderID</th>
+                <th>quantity</th>
+                <th>prodID</th>
                 <th>userID</th>
-                <th>firstname</th>
-                <th>lastName</th>
-                <th>userRole</th>
-                <th>emailAdd</th>
-                <th>Password</th>
               </tr>
-              <tbody v-for="user in $store.state.users" :key="user.userID" >
-                <td>{{user.userID}}</td>
-                <td>{{user.firstName}}</td>
-                <td>{{user.lastName}}</td>
-                <td>{{user.userRole}}</td>
-                <td>{{user.emailAdd}}</td>
-                <td>{{user.Password}}</td>
-                <td><button @click="editUser(user.userID)">Edit</button></td>
-                <td><button @click="deleteUser(user.userID)">Delete</button></td>
+              <tbody v-for="cart in $store.state.cart" :key="cart.orderID" >
+                <td>{{cart.orderID}}</td>
+                <td>{{cart.quantity}}</td>
+                <td>{{cart.prodID}}</td>
+                <td>{{cart.userID}}</td>
+                <td><button @click="editUser(cart.orderID)">Edit</button></td>
+                <td><button @click="deleteUser(cart.orderID)">Delete</button></td>
               </tbody>
-          </table> -->
+          </table>
       </div>
 </template>
 <script>
@@ -192,10 +188,14 @@ export default {
       console.log(this.$data);
       this.$store.dispatch('addUser',this.$data)
     },
+    getCarts(){
+      this.$store.dispatch('getCarts')
+    },
   },
   mounted() {
     this.getProducts
     this.getUsers
+    this.getCarts
   }
 }
 </script>
