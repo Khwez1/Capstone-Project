@@ -49,12 +49,12 @@ const goDeleteUser = async(id)=>{
     return goGetUsers()
 }; 
 
-const goPatchUser = async(firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id)=>{
+const goPatchUser = async(firstName, lastName, userRole, emailAdd, Password, id)=>{
     await pool.query(`
         UPDATE users
-        SET firstName = ?, lastName = ?, userAge = ?, Gender = ?, userRole = ?, emailAdd = ?, Password = ?
+        SET firstName = ?, lastName = ?, userRole = ?, emailAdd = ?, Password = ?
         WHERE userID = ?
-    `,[firstName, lastName, userAge, Gender, userRole, emailAdd, Password, id])
+    `,[firstName, lastName, userRole, emailAdd, Password, id])
     return goGetUsers()
 };
 //login table function

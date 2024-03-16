@@ -18,7 +18,7 @@ export default {
     patchUser: async (req, res) => {
         const [user] = await goGetProduct(+req.params.id);
 
-        let { firstName, lastName, userAge, emailAdd, Password } = req.body;
+        let { firstName, lastName, userRole, emailAdd, Password } = req.body;
 
         // Check if the password field is present in the request body
         if (Password) {
@@ -36,7 +36,7 @@ export default {
         }
 
         // Update user data in the database
-        await goPatchUser(firstName, lastName, userAge, emailAdd, Password, +req.params.id);
+        await goPatchUser(firstName, lastName, userRole, emailAdd, Password, +req.params.id);
 
         // Return updated user data
         res.send(await goGetUsers());
