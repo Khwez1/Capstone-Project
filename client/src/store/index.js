@@ -4,8 +4,7 @@ import router from '@/router'
 
 axios.defaults.withCredentials = true
 
-
-const baseUrl = 'https://capstone-project-fl4x.onrender.com'
+const baseUrl = 'http://localhost:3376'
 
 export default createStore({
   state: {
@@ -131,7 +130,15 @@ export default createStore({
      async getCart({commit}){
       const {data} =  await axios.get(baseUrl+'/cart')
       commit("setCart",data);
-     }
+     },
+     async editCart({commit},update){
+      const {data} = await axios.patch(baseUrl+'/cart/'+update.id,update)
+      commit("setProducts", data);
+    },
+    async deleteCart({commit},userID){
+      const {data} = await axios.delete(baseUrl+'/cart/'+userID)
+      commit("setUsers", data);
+    }
   },
   modules: {
   }

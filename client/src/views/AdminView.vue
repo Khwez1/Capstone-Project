@@ -100,6 +100,27 @@
                 <td><button @click="deleteUser(user.userID)">Delete</button></td>
               </tbody>
           </table>
+          <!-- <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addUser">Add</button></div>
+          <table class="mb-5">
+              <tr class="thead">
+                <th>userID</th>
+                <th>firstname</th>
+                <th>lastName</th>
+                <th>userRole</th>
+                <th>emailAdd</th>
+                <th>Password</th>
+              </tr>
+              <tbody v-for="user in $store.state.users" :key="user.userID" >
+                <td>{{user.userID}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.userRole}}</td>
+                <td>{{user.emailAdd}}</td>
+                <td>{{user.Password}}</td>
+                <td><button @click="editUser(user.userID)">Edit</button></td>
+                <td><button @click="deleteUser(user.userID)">Delete</button></td>
+              </tbody>
+          </table> -->
       </div>
 </template>
 <script>
