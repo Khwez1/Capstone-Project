@@ -101,6 +101,21 @@
               </tbody>
           </table>
           <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addUser">Add</button></div>
+          <div class="container ">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">userID</label>
+                <input v-model="userID" type="email" class="form-control" id="exampleFormControlInput1" placeholder="userID">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">quantity</label>
+                <input v-model="quantity" type="email" class="form-control" id="exampleFormControlInput1" placeholder="quantity">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">prodID</label>
+                <input v-model="prodID" type="email" class="form-control" id="exampleFormControlInput1" placeholder="prodID">
+            </div>
+            <div class="d-flex justify-content-center" style="text-align: center;"><button @click="addCartByAdmin">Add</button></div>
+          </div>
           <table class="mb-5">
               <tr class="thead">
                 <th>orderID</th>
@@ -113,15 +128,15 @@
                 <td>{{cart.quantity}}</td>
                 <td>{{cart.prodID}}</td>
                 <td>{{cart.userID}}</td>
-                <td><button @click="editUser(cart.orderID)">Edit</button></td>
-                <td><button @click="deleteUser(cart.orderID)">Delete</button></td>
+                <td><button @click="editCart(cart.orderID)">Edit</button></td>
+                <td><button @click="deleteCart(cart.orderID)">Delete</button></td>
               </tbody>
           </table>
       </div>
 </template>
 <script>
 export default {
-    data(){
+  data(){
     return{
       prodName: null,
       quantity:null,
@@ -141,12 +156,22 @@ export default {
       Password:null
     }
   },
+  data(){
+    return{
+      userID:null,
+      quantity:null,
+      prodID:null
+    }
+  },
   methods: {
     deleteProd(prodID){
       this.$store.dispatch('deleteProd',prodID)
     },
     deleteUser(userID){
       this.$store.dispatch('deleteUser',userID)
+    },
+    deleteCart(orderID){
+      this.$store.dispatch('deleteUser',orderID)
     },
     editProd(prodID){
       let edit = {
@@ -157,11 +182,11 @@ export default {
         description:this.description,
         date:this.date,
         category:this.category,
-        ProdUrl:this.ProdUrl
+        prodUrl:this.prodUrl
       }
       this.$store.dispatch('editUser',edit)
     },
-  editUser(userID){
+    editUser(userID){
       let edit = {
         id:userID,
         firstName: this.firstName,
@@ -171,6 +196,15 @@ export default {
         Password: this.Password
       }
       this.$store.dispatch('editUser',edit)
+    },
+    editCart(orderID){
+      let edit = {
+        id:orderID,
+        userID: this.userID,
+        quantity: this.quantity,
+        prodID: this.prodID
+      }
+      this.$store.dispatch('editCart',edit)
     }
   },
   computed: {
@@ -190,6 +224,10 @@ export default {
     },
     getCarts(){
       this.$store.dispatch('getCarts')
+    },
+    addCartByAdmin(){
+      console.log(this.$data);
+      this.$store.dispatch('addCartByAdmin',this.$data)
     },
   },
   mounted() {

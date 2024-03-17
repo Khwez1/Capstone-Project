@@ -127,10 +127,14 @@ export default createStore({
       const {data} = await axios.post(baseUrl+'/cart',newProduct)
       commit("setCart",alert(data.msg));
      },
-    //  async getCart({commit}){
-    //   const {data} =  await axios.get(baseUrl+'/cart')
-    //   commit("setCart",data);
-    //  },
+    async addCartByAdmin({commit},newProduct){
+      const {data} = await axios.post(baseUrl+'/cart',newProduct)
+      commit("setCart",alert(data.msg));
+     },
+     async getCart({commit}){
+      const {data} =  await axios.get(baseUrl+'/cart')
+      commit("setCart",data);
+     },
      async getCarts({commit}){
       const {data} =  await axios.get(baseUrl+'/cart')
       commit("setCart",data);

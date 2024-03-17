@@ -8,32 +8,46 @@
     <h1 class="text-white">{{ item.prodName }}</h1>
     <div>
       <p>Amount: R{{ item.amount }}</p>
-      <button>
-        
-      </button>
       <button
-        class="btn btn-danger mx-5 w-50 text-black bg-white-subtle p-1"
+        class="btn btn-danger w-50 text-black bg-white-subtle p-1"
         @click="goBack"
       >
         Back
       </button>
     </div>
+    <br>
     <div>
-      <input type="button" value="0">
+      <input type="number" v-model="quantity" min="1">
+    </div>
+    <br>
+    <div>
+      <button @click="addCart(item.prodID)">buy</button>
     </div>
   </div>
 </template>
-
 <script>
 export default {
+  data() {
+    return {
+      quantity: 1, // makes quantiy start at 1
+    };
+  },
   computed: {
     getproduct() {
       this.$store.dispatch("getProduct", this.$route.params.prodID);
     },
+    
   },
   methods: {
     goBack() {
       this.$router.go(-1); 
+    },
+    addCart(prodID){
+      let add = {
+        prodID:prodID,
+        quantity:this.quantity
+      }
+      this.$store.dispatch("addCart", add)
     }
   },
   mounted() {
