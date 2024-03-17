@@ -1,27 +1,25 @@
-import { goPostCart, getUserIdFromDatabase, goGetCart, goDeleteCart, goDeleteFromCart, goGetCarts } from "../models/cart.js";
+import { goPostCart, goPatchCart, getUserIdFromDatabase, goGetCart, goGetCartById, goDeleteCart, goDeleteCartById, goDeleteFromCart, goGetCarts } from "../models/cart.js";
 export default {
-//cart table function
+//cart table function for the user
     postCart: async (req, res) => {
         // Get emailAdd from cookies
         const emailAdd = req.emailAdd;    
         // Use a function to find the userID based on emailAdd
-        try {
+        try{
             const userID = await getUserIdFromDatabase(emailAdd)
-            
+            console.log(userID);
+
             // Assuming prodID and quantity are obtained from request body or query parameters
             const { prodID, quantity } = req.body;
-
+            
             // Insert product into cart table using userID and prodID
             await goPostCart(userID, prodID, quantity);
 
             res.send({ msg: 'Product added to cart successfully' });
-        } catch (error) {
+        }catch (error) {
             console.error('Error:', error);
             res.status(500).send({ error: 'An error occurred while adding product to cart' });
         }
-    },
-    getCarts: async(req,res)=>{
-        res.send(await goGetCarts())
     },
     getCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
@@ -38,5 +36,39 @@ export default {
         const {prodID} = req.body;   
         const userID = await getUserIdFromDatabase(emailAdd)
         res.send(await  goDeleteFromCart(userID,prodID));
+    },
+//cart table function for the Admin
+    getCarts: async(req,res)=>{
+        res.send(await goGetCarts())
+    },
+    deleteCartById: async(req,res)=>{
+        res.send(await goDeleteCartById(+req.params.id));   
+    },
+    postCartByAdmin: async (req, res) => {
+        try{
+            const { userID, prodID, quantity } = req.body;
+            
+            await goPostCart(userID, prodID, quantity);
+
+            res.send({ msg: 'Product added to cart successfully' });
+        }catch (error) {
+            console.error('Error:', error);
+            res.status(500).send({ error: 'An error occurred while adding product to cart' });
+        }
+    },
+    patchCart: async(req,res)=>{
+        const [cart] = await goGetCartById(+req.params.id)
+
+        let {userID, quantity, prodID,} = req.body
+
+        userID ? userID=userID: {userID} = cart
+
+        quantity ? quantity=quantity: {quantity} = cart
+
+        prodID ? prodID=prodID: {prodID} = cart
+
+        await goPatchCart(userID, quantity, prodID,+req.params.id)
+        
+        res.send(await goGetCarts())
     }
 }

@@ -12,14 +12,14 @@ export default {
     },
 
     getProduct: async (req, res) => {
-        // try {
+        try {
             const prodID = +req.params.id; // Convert the id to a number
             const product = await goGetProduct(prodID);
             res.send(product);
-        // } catch (error) {
-        //     console.error("Error occurred while fetching product");
-        //         res.status(404).json({ msg: "product was not found" }); 
-        // }
+        } catch (error) {
+            console.error("Error occurred while fetching product");
+                res.status(404).json({ msg: "product was not found" }); 
+        }
     },
     
     postProduct: async(req,res)=>{
