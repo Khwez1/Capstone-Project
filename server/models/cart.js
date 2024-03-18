@@ -17,10 +17,22 @@ const goPatchCart = async(userID, quantity, prodID, id)=>{
     return goGetCarts()
 };
 
-const goGetCart = async (userID) => {
-    // Retrieve cart contents for the user based on userID
+const goGetUserCart = async (userID) => {
+    // Retrieve cart contents for the user based on userID with the specified information
     const [cartItems] = await pool.query(`
-        SELECT * FROM cart WHERE userID = ?
+        SELECT 
+            c.quantity AS sold_quantity,
+            p.amount AS price_per_unit,
+            (c.quantity * p.amount) AS total_price,
+            p.prodUrl,
+            p.prodName,
+            p.prodID
+        FROM 
+            cart c
+        JOIN 
+            products p ON c.prodID = p.prodID
+        WHERE 
+            c.UserID = ?
     `, [userID]);
     return cartItems;
 };
@@ -51,7 +63,7 @@ const goDeleteCart = async (userID) => {
 };
 
 const goDeleteCartById = async (orderID) => {
-    // Remove user's cart on checkout
+    // Removes cart on admin
     await pool.query(`
         DELETE FROM cart
         WHERE orderID = ? 
@@ -75,4 +87,18 @@ const getUserIdFromDatabase = async (emailAdd) => {
     return userID
 };
 
-export { getUserIdFromDatabase, goPostCart, goPatchCart, goGetCart, goGetCartById, goDeleteCart, goDeleteCartById, goDeleteFromCart, goGetCarts }
+const goUpdateProductQuantity = async (userID) => {
+    // Update the quantity of products in stock after checkout
+    await pool.query(`
+    UPDATE products p
+    JOIN (
+        SELECT c.prodID, SUM(c.quantity) AS total_sold
+        FROM cart c
+        WHERE c.UserID = ?
+        GROUP BY c.prodID
+    ) AS soldTotals ON p.prodID = soldTotals.prodID
+    SET p.quantity = p.quantity - soldTotals.total_sold;
+    `, [userID]);
+};
+
+export { goUpdateProductQuantity, getUserIdFromDatabase, goPostCart, goPatchCart, goGetUserCart, goGetCartById, goDeleteCart, goDeleteCartById, goDeleteFromCart, goGetCarts }
