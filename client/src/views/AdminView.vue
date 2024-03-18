@@ -171,7 +171,7 @@ export default {
       this.$store.dispatch('deleteUser',userID)
     },
     deleteCart(orderID){
-      this.$store.dispatch('deleteUser',orderID)
+      this.$store.dispatch('deleteCart',orderID)
     },
     editProd(prodID){
       let edit = {
