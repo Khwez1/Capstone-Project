@@ -4,24 +4,26 @@
       class="card-img-top"
       :src="item.prodUrl"
       alt="Product Image"
+      
     />
     <h1 class="text-white">{{ item.prodName }}</h1>
     <div>
       <p>Amount: R{{ item.amount }}</p>
-      <button
-        class="btn btn-danger w-50 text-black bg-white-subtle p-1"
-        @click="goBack"
-      >
-        Back
-      </button>
+      
     </div>
     <br>
     <div>
       <input type="number" v-model="quantity" min="1">
     </div>
     <br>
-    <div>
-      <button @click="addCart(item.prodID)">buy</button>
+    <div class="buttons">
+     
+      
+    <button class="btn btn-danger w-50 text-black bg-white-subtle p-1" @click="goBack">
+        Back
+      </button>
+      <button class="btn btn-danger w-50 text-black bg-white-subtle p-1" @click="addCart(item.prodID)">Purchase</button>
+
     </div>
   </div>
 </template>
@@ -57,12 +59,22 @@ export default {
 </script>
 
 <style scoped>
-img {
-  max-width: 20%;
-  height: auto;
-  border-radius: 50%;
-  display: block;
-  margin: 1rem auto;
+img{
+  height: 230px; 
+  width: 360px !important; 
+  padding: 10px; 
+  padding-right: 50px; 
+  margin-left: 50px;
+  /* margin: 0 auto; */
+  /* border-radius: 50px; */
+}
+h1{
+  color: white;
+  /* font-size: 20px; */
+}
+p{
+  color: white;
+  font-size: 20px;
 }
 
 @media (max-width: 768px) {
@@ -86,5 +98,23 @@ img {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.btn-danger{
+  background-color: red;
+  color: white !important;
+  font-size: 20px;
+  width: 120px !important;
+  border: none;
+  margin: 10px;
+  padding: 15px !important;
+  /* padding-right: 10px !important; */
+  transition: background-color 0.5s ease;
+}
+.btn-danger:hover{
+  background-color: rgb(147, 147, 147);
+}
+.buttons{
+  margin-bottom: 150px;
 }
 </style>

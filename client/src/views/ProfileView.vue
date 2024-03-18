@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ user.firstName }}</h5>
       <p class="card-text">{{ user.lastName }}</p>
-      <p class="quantity">{{user.quantity}}</p>
+      <p class="quantity">{{user.Password}}</p>
     </div>
   </div>
 </template>

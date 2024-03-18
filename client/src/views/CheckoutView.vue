@@ -18,7 +18,9 @@
                 <td><button @click="deleteCartItem(cart.prodID)">Delete</button></td>
               </tbody>
             </table>
-        <button @click="checkout">checkout</button>
+            <div class="mb-5">
+                <button @click="checkout">checkout</button>
+            </div>
     </div>
 </template>
 <script>

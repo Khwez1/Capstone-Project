@@ -80,7 +80,7 @@ export default createStore({
       commit("setUsers", data);
     },
     async getUser({commit},email){
-      const {data} =  await axios.get(baseUrl+'/users')
+      const {data} =  await axios.get(baseUrl+'/users/user')
       console.log(data);
       commit("setUser", data);
     },
@@ -114,25 +114,17 @@ export default createStore({
       // window.location.reload()
       commit('setLogged', true)
     },
-    async logOut(context){
-      let cookies = cookies.keys()
-      console.log(cookies)
-      cookies.remove('jwt')
-      window.location.reload()
-      let { data } = await axios.delete(baseUrl + '/logout')
-      alert(data.msg)
-    },
     //cart
     async addCart({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/cart',newProduct)
+      const {data} = await axios.post(baseUrl+'/cart/user',newProduct)
       commit("setCart",alert(data.msg));
      },
     async addCartByAdmin({commit},newProduct){
       const {data} = await axios.post(baseUrl+'/cart',newProduct)
       commit("setCart",alert(data.msg));
      },
-     async getCart({commit}){
-      const {data} =  await axios.get(baseUrl+'/cart')
+     async getUserCart({commit}){
+      const {data} =  await axios.get(baseUrl+'/cart/user')
       commit("setCart",data);
      },
      async getCarts({commit}){
@@ -146,6 +138,11 @@ export default createStore({
     async deleteCart({commit},userID){
       const {data} = await axios.delete(baseUrl+'/cart/'+userID)
       commit("setCart", data);
+    },
+    async checkout({commit},userID){
+      const {data} = await axios.delete(baseUrl+'/cart')
+      commit("setCart", alert(data.msg))
+      router.push('/products');
     }
   },
   modules: {

@@ -1,52 +1,83 @@
 <template>
     <div id='navbar'>
-        <nav class="navbar navbar-dark navbar-expand-lg ">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
-                <router-link class="navbar-brand" to="/signup"><img src="https://cdn-images.imagevenue.com/e3/5c/af/ME17RD1Q_o.png" style="height: 70px; width: 70px;"></router-link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 50 50">
-                        <path fill="red" d="M 3 9 A 1.0001 1.0001 0 1 0 3 11 L 47 11 A 1.0001 1.0001 0 1 0 47 9 L 3 9 z M 3 24 A 1.0001 1.0001 0 1 0 3 26 L 47 26 A 1.0001 1.0001 0 1 0 47 24 L 3 24 z M 3 39 A 1.0001 1.0001 0 1 0 3 41 L 47 41 A 1.0001 1.0001 0 1 0 47 39 L 3 39 z"></path>
-                    </svg>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav custom-navbar-nav">
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/">Home</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/about">About</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/products">Products</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/checkout">checkout</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/admin">Admin</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/contact">Contact</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/login">Login</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/profile">Profile</router-link>
-                    </li>
-                </ul>
-            </div>
+                <router-link class="navbar-brand" to="/signup">
+                    <img src="https://cdn-images.imagevenue.com/e3/5c/af/ME17RD1Q_o.png" style="height: 150px; width: 150px;">
+                </router-link>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/">Home</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/about">About</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/products">Products</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/checkout">Checkout</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/admin">Admin</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/contact">Contact</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/login">Login</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/profile">Profile</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <button v-if="hasJWT" @click="logOut" class="btn btn-outline-light">Log out</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>
-    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 50 50">
-                        <path fill="red" d="M 3 9 A 1.0001 1.0001 0 1 0 3 11 L 47 11 A 1.0001 1.0001 0 1 0 47 9 L 3 9 z M 3 24 A 1.0001 1.0001 0 1 0 3 26 L 47 26 A 1.0001 1.0001 0 1 0 47 24 L 3 24 z M 3 39 A 1.0001 1.0001 0 1 0 3 41 L 47 41 A 1.0001 1.0001 0 1 0 47 39 L 3 39 z"></path>
-                    </svg> -->
-                      <!--   -->
 </template>
+
+
 <script>
+import Swal from 'sweetalert2'
 export default {
-    
+    computed:{
+        hasJWT(){
+            return !!this.$cookies.get('jwt')
+        },
+    },
+    methods: {
+        logOut(){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will be logged out',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(71, 98, 218)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log me out!',
+        position: 'top',
+      }).then((result) => {
+        if (result.isConfirmed) {
+        // Remove JWT token
+        this.$cookies.remove('jwt');
+        // this.$store.dispatch('logOutUser');
+        this.$router.push('/'); // Redirect to home page
+      setTimeout(() => {
+        // Refresh the page after a short delay
+        window.location.reload();
+      }, 10);
+        }
+      });
+        }
+    }
 }
 </script>
 <style scoped>

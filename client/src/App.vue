@@ -15,7 +15,14 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+#app{
+  font-family: monospace;
+}
+body{
+  background-color: black;
+}
+
 Footer{
   margin-top: 10px;
 }
