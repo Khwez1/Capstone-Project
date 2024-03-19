@@ -2,15 +2,15 @@
     <div id="signup">
         <h1>This is an signup page</h1>
         <main>
-            <div class="card mt-5" style="width: 18rem;">
+            <div class="card mb-5 mt-5" style="width: 18rem;">
                 <h5 class="card-title mt-2">Sign Up</h5>
                 <div class="card-body">
-                    <input v-model="firstName" name="firstName" placeholder="firstName" type="text"></input>
-                    <input v-model="lastName" name="lastName" placeholder="lastName" type="text"></input>
-                    <input v-model="userRole" name="userRole" placeholder="userRole" type="text"></input>
-                    <input v-modal="emailAdd" name="emailAdd" placeholder="emailAdd" type="text"></input>
-                    <input v-model="Password" name="Password" placeholder="Password" type="text"></input>
-                    <button href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
+                    <input required v-model="firstName" name="firstName" placeholder="firstName" type="text"></input>
+                    <input required v-model="lastName" name="lastName" placeholder="lastName" type="text"></input>
+                    <input required v-model="userRole" name="userRole" placeholder="userRole" type="text"></input>
+                    <input required v-model="emailAdd" name="emailAdd" placeholder="emailAdd" type="text"></input>
+                    <input required v-model="Password" name="Password" placeholder="Password" type="text"></input>
+                    <button @click="registerUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
                 </div>
             </div>
         </main>
@@ -29,17 +29,10 @@ export default {
     },
     computed: {
         registerUser(){
-            this.$store.dispatch('registerUser',this.$data)
+            this.$store.dispatch('signup',this.$data)
+            console.log(this.$data);
         },
-    },
-    methods: {
-        submitData(){
-           console.log(this.$data.email)
-           //this is the only place because that can handle asycronous functions
-           //the data is only being saved when it is being used
-           this.$store.dispatch('login',this.$data)
-        },
-    },
+    }
 }
 </script>
 <style scoped>

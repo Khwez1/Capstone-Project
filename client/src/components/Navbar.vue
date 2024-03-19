@@ -29,7 +29,7 @@
                             <router-link class="nav-link" to="/contact">Contact</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/login">Login</router-link>
+                            <router-link v-if="!hasJWT" class="nav-link" to="/login">Login</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/profile">Profile</router-link>

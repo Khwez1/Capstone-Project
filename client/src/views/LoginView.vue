@@ -29,6 +29,7 @@ export default {
         loginUser(){
             console.log(this.$data)
             this.$store.dispatch('loginUser',this.$data)
+            
         },
     },
 }

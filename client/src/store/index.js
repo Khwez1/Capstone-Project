@@ -63,7 +63,7 @@ export default createStore({
       }catch (error) {
         console.error('Error adding Product:', error)
       }
-      // window.location.reload()
+      window.location.reload()
     },
     async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
@@ -94,11 +94,24 @@ export default createStore({
         commit ('setUsers', data)
         console.log(data);
       }catch (error) {
-        console.error('Error adding Product:', error)
+        console.error('Error adding user:', error)
+      }
+    },
+    async signup({ commit }, newUser) {
+      try {
+        let {data} = await axios.post(baseUrl + '/signup', newUser)
+        commit ('setUsers', alert(data.msg))
+        console.log(data);
+      }catch (error) {
+        console.error('Error adding user:', error)
       }
     },
     async editUser({commit},update){
       const {data} = await axios.patch(baseUrl+'/users/'+update.id,update)
+      commit("setUsers", data);
+    },
+    async editUserProfile({commit},update){
+      const {data} = await axios.patch(baseUrl+'/users/user',update)
       commit("setUsers", data);
     },
     async deleteUser({commit},userID){
@@ -113,6 +126,10 @@ export default createStore({
       router.push('/')
       // window.location.reload()
       commit('setLogged', true)
+      setTimeout(()=> {
+        window.location.reload()
+    },10)
+
     },
     //cart
     async addCart({commit},newProduct){
