@@ -70,12 +70,12 @@ const goDeleteCartById = async (orderID) => {
     `, [orderID]);
 };
 
-const goDeleteFromCart = async (userID, productID) => {
+const goDeleteFromCart = async (userID, prodID) => {
     // Remove a product from the user's cart
     await pool.query(`
         DELETE FROM cart
-        WHERE userID = ? AND productID = ?
-    `, [userID, productID]);
+        WHERE userID = ? AND prodID = ?
+    `, [userID, prodID]);
 };
 
 const getUserIdFromDatabase = async (emailAdd) => {
