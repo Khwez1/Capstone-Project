@@ -22,9 +22,15 @@ export default {
         }
     },
     getUserCart: async (req, res) => {
-        const emailAdd = req.emailAdd;    
-        const userID = await getUserIdFromDatabase(emailAdd)
-        res.send(await goGetUserCart(userID));
+        try {
+            const emailAdd = req.emailAdd;
+            const userID = await getUserIdFromDatabase(emailAdd);
+            const userCart = await goGetUserCart(userID);
+            res.send(userCart);
+        } catch (error) {
+            console.error("Error fetching user cart:", error);
+            res.status(404).send({msg:"There are no Items in cart"});
+        }
     },
     deleteCart: async (req, res) => {
         const emailAdd = req.emailAdd;    
@@ -40,8 +46,14 @@ export default {
         res.send(await  goDeleteFromCart(userID,prodID));
     },
 //cart table function for the Admin
-    getCarts: async(req,res)=>{
-        res.send(await goGetCarts())
+    getCarts: async (req, res) => {
+        try {
+            const carts = await goGetCarts();
+            res.send(carts);
+        } catch (error) {
+            console.error("Error fetching carts:", error);
+            res.status(404).send({msg:"No carts available"});
+        }
     },
     deleteCartById: async(req,res)=>{
         res.send(await goDeleteCartById(+req.params.id));   

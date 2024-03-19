@@ -8,6 +8,7 @@ import cartRouter from '../server/routes/cart.js'
 import usersRouter from '../server/routes/users.js';
 import cookieParser from 'cookie-parser'
 import loginRouter from '../server/routes/login.js';
+import signupRouter from './routes/signup.js'
 import { certificate } from './middleware/certificate.js';
 config()
 
@@ -44,6 +45,8 @@ app.use('/cart', authenticate, cartRouter)
 app.use('/users', authenticate, usersRouter)
 
 app.use('/login', certificate, loginRouter)
+
+app.use('/signup', signupRouter)
 
 app.listen (PORT,()=>{
     console.log(`this is listening on http://localhost:${PORT}`)

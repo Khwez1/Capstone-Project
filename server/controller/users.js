@@ -1,4 +1,4 @@
-import { goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, logIn, } from "../models/users.js";
+import { goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, goPatchUserProfile, logIn, } from "../models/users.js";
 import bcrypt from 'bcrypt';
 export default {
 //users table fuction
@@ -45,6 +45,43 @@ export default {
 
         // Update user data in the database
         await goPatchUser(firstName, lastName, userRole, emailAdd, Password, +req.params.id);
+
+        // Return updated user data
+        res.send(await goGetUsers());
+    },
+
+    patchUserProfile: async (req, res) => {
+        const email = req.emailAdd;
+        
+        const [user] = await goGetUser(email);
+
+        let { firstName, lastName, userRole, emailAdd, Password } = req.body;
+
+        firstName ? firstName=firstName: {firstName} = user
+
+        lastName ? lastName=lastName: {lastName} = user
+
+        userRole ? userRole=userRole: {userRole} = user
+
+        emailAdd ? emailAdd=emailAdd: {emailAdd} = user
+        
+        // Check if the password field is present in the request body
+        if (Password) {
+            // If present, hash the password
+            try {
+                Password = await bcrypt.hash(Password, 10);
+            } catch (error) {
+                console.error("Error hashing password:", error);
+                res.status(500).send({ error: "An error occurred while hashing the password" });
+                return;
+            }
+        } else {
+            // If not present, use the existing password from the database
+            Password = user.Password;
+        }
+
+        // Update user data in the database
+        await goPatchUserProfile(firstName, lastName, userRole, emailAdd, Password, email);
 
         // Return updated user data
         res.send(await goGetUsers());

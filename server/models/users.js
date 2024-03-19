@@ -25,19 +25,17 @@ const goGetUserByID = async(id)=>{
 };
 //Sign in function
 const goPostUser = async (firstName, lastName, userRole, emailAdd, Password) => {
-    if (!firstName || !lastName || !userRole || !emailAdd || !Password) {
-        throw new Error("Missing required fields");
-    }
-    
     try {
+        // Attempt to execute the database query
         await pool.query(`
             INSERT INTO users (firstName, lastName, userRole, emailAdd, Password) 
             VALUES (?,?,?,?,?);
         `, [firstName, lastName, userRole, emailAdd, Password]);
-        
-        return await goGetUsers();
+
+        // If the query is successful, return the result of goGetUsers()
+        return  goGetUsers();
     } catch (error) {
-        throw new Error("Error inserting user: " + error.message);
+        throw error;
     }
 };
 
@@ -57,6 +55,16 @@ const goPatchUser = async(firstName, lastName, userRole, emailAdd, Password, id)
     `,[firstName, lastName, userRole, emailAdd, Password, id])
     return goGetUsers()
 };
+
+const goPatchUserProfile = async(firstName, lastName, userRole, emailAdd, Password, email)=>{
+    await pool.query(`
+        UPDATE users
+        SET firstName = ?, lastName = ?, userRole = ?, emailAdd = ?, Password = ?
+        WHERE emailAdd = ?
+    `,[firstName, lastName, userRole, emailAdd, Password, email])
+    return goGetUsers()
+};
+
 //login table function
 const logIn = async(emailAdd)=> {
     const [[{Password}]] = await pool.query(`
@@ -76,4 +84,4 @@ const getUserInfoFromDatabase = async (emailAdd) => {
     return result
 };
 
-export {  logIn, goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, getUserInfoFromDatabase }
+export {  logIn, goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser,goPatchUserProfile, getUserInfoFromDatabase }

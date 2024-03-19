@@ -6,6 +6,7 @@ const router = express.Router();
 router
     .route('/user')
         .get(controller.getUser)
+        .patch(controller.patchUserProfile)
 
 router
     .route('/')
