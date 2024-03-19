@@ -156,6 +156,10 @@ export default createStore({
       const {data} = await axios.delete(baseUrl+'/cart/'+userID)
       commit("setCart", data);
     },
+    async deleteCartItem({commit},prodID){
+      const {data} = await axios.delete(baseUrl+'/cart/user',prodID)
+      commit("setCart", data);
+    },
     async checkout({commit},userID){
       const {data} = await axios.delete(baseUrl+'/cart')
       commit("setCart", alert(data.msg))
