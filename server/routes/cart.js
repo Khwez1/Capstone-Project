@@ -17,6 +17,9 @@ router
         .get(controller.getUserCart)
         .post(controller.postCart)
         .delete(controller.DeleteFromCart)
+router
+    .route('/user/:id')
+        .delete(controller.DeleteFromCart)
 
 router
     .route('/:id') 

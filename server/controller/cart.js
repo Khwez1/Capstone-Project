@@ -40,10 +40,10 @@ export default {
         res.send({msg:'Thank you for your purchase'})
     },
     DeleteFromCart: async (req, res) => {
-        const emailAdd = req.emailAdd;
-        const {prodID} = req.body;   
+        const emailAdd = req.emailAdd  
+        const prodID = parseInt(+req.params.id)
         const userID = await getUserIdFromDatabase(emailAdd)
-        res.send(await  goDeleteFromCart(userID,prodID));
+        res.send(await  goDeleteFromCart(userID,prodID))
     },
 //cart table function for the Admin
     getCarts: async (req, res) => {
