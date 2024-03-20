@@ -49,7 +49,6 @@ export default {
     getUser(){
       this.$store.dispatch('getUser')
     },
-
     editUserProfile(){
       let edit = {
         firstName:this.firstName,
@@ -58,6 +57,7 @@ export default {
         emailAdd:this.emailAdd,
         Password:this.Password
       }
+      console.log(this.$data);
       this.$store.dispatch('editUserProfile',edit)
     }
   },
