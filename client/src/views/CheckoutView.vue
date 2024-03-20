@@ -39,10 +39,8 @@ export default {
     },
     methods: {
         deleteCartItem(prodID){
-            let del = {
-                prodID:prodID
-            }
-        this.$store.dispatch('deleteCartItem',del)
+            console.log('This is in the view'+prodID);
+            this.$store.dispatch('deleteCartItem',prodID)
         }
     },
     mounted(){

@@ -63,7 +63,7 @@ export default createStore({
       }catch (error) {
         console.error('Error adding Product:', error)
       }
-      window.location.reload()
+      // window.location.reload()
     },
     async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
@@ -94,24 +94,11 @@ export default createStore({
         commit ('setUsers', data)
         console.log(data);
       }catch (error) {
-        console.error('Error adding user:', error)
-      }
-    },
-    async signup({ commit }, newUser) {
-      try {
-        let {data} = await axios.post(baseUrl + '/signup', newUser)
-        commit ('setUsers', alert(data.msg))
-        console.log(data);
-      }catch (error) {
-        console.error('Error adding user:', error)
+        console.error('Error adding Product:', error)
       }
     },
     async editUser({commit},update){
       const {data} = await axios.patch(baseUrl+'/users/'+update.id,update)
-      commit("setUsers", data);
-    },
-    async editUserProfile({commit},update){
-      const {data} = await axios.patch(baseUrl+'/users/user',update)
       commit("setUsers", data);
     },
     async deleteUser({commit},userID){
@@ -126,10 +113,14 @@ export default createStore({
       router.push('/')
       // window.location.reload()
       commit('setLogged', true)
-      setTimeout(()=> {
-        window.location.reload()
-    },10)
-
+    },
+    async logOut(context){
+      let cookies = cookies.keys()
+      console.log(cookies)
+      cookies.remove('jwt')
+      window.location.reload()
+      let { data } = await axios.delete(baseUrl + '/logout')
+      alert(data.msg)
     },
     //cart
     async addCart({commit},newProduct){
@@ -137,12 +128,13 @@ export default createStore({
       commit("setCart",alert(data.msg));
      },
     async addCartByAdmin({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/cart',newProduct)
+      const {data} = await axios.post(baseUrl+'/cart/admin',newProduct)
       commit("setCart",alert(data.msg));
      },
      async getUserCart({commit}){
-      const {data} =  await axios.get(baseUrl+'/cart/user')
-      commit("setCart",data);
+      const {data} =  await axios.get(baseUrl+'/Cart/user')
+      console.log(data);
+      commit("setCart", data);
      },
      async getCarts({commit}){
       const {data} =  await axios.get(baseUrl+'/cart')
@@ -152,18 +144,21 @@ export default createStore({
       const {data} = await axios.patch(baseUrl+'/cart/'+update.id,update)
       commit("setCart", data);
     },
-    async deleteCart({commit},userID){
-      const {data} = await axios.delete(baseUrl+'/cart/'+userID)
+    async deleteCart({commit},orderID){
+      const {data} = await axios.delete(baseUrl+'/cart/'+orderID)
       commit("setCart", data);
     },
     async deleteCartItem({commit},prodID){
-      const {data} = await axios.delete(baseUrl+'/cart/user',prodID)
+      console.log('this is in the store'+prodID);
+      const {data} = await axios.delete(baseUrl+'/cart/user/'+prodID)
+      window.Location.reload()
       commit("setCart", data);
     },
-    async checkout({commit},userID){
+    async checkout({commit}){
       const {data} = await axios.delete(baseUrl+'/cart')
-      commit("setCart", alert(data.msg))
-      router.push('/products');
+      commit("setCart", data);
+      alert(data.msg)
+      router.push('/products')
     }
   },
   modules: {
