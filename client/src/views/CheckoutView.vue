@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         deleteCartItem(prodID){
-            console.log('This is in the view'+prodID);
+            console.log(prodID);
             this.$store.dispatch('deleteCartItem',prodID)
         }
     },

@@ -12,7 +12,6 @@
                         <input v-model="Password" name="Password" placeholder="Password" type="text"></input>
                         <button @click="loginUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
                     </div>
-                    <h4>{{ $store.state.loggedIn }}</h4>
                 </div>
             </main>
     </div>

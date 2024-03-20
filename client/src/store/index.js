@@ -1,11 +1,8 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '@/router'
-
 axios.defaults.withCredentials = true
-
 const baseUrl = 'http://localhost:3376'
-
 export default createStore({
   state: {
     product:[],
@@ -13,7 +10,7 @@ export default createStore({
     cart:[],
     user:[],
     users:[],
-    loggedIn: false
+    adminIs: null
   },
   getters: {
     currentYear: () => {
@@ -30,8 +27,8 @@ export default createStore({
     setCart(state, data) {
       state.cart = data;
     },
-    setLogged(state,payload){
-      state.loggedIn = payload
+    setLogged(state,data){
+      state.adminIs = data
     },
     setUsers(state,data){
       state.users = data;
@@ -41,6 +38,20 @@ export default createStore({
     }
   },
   actions: {
+    //admin
+    async getUserRole({ commit }) {
+      try {
+        const response = await axios.get(baseUrl + '/users/admin');
+        const {isAdmin} = response.data; // Assuming response.data directly represents admin status
+        console.log(isAdmin);
+        commit("setLogged", isAdmin); // Committing just the admin status
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+        // You can handle errors more gracefully, such as by setting adminIs to null or false
+        commit("setLogged", false); // Setting adminIs to false in case of error
+      }
+    },
+    //products
     async getProducts({ commit }) {
       try {
         const {data} = await axios.get(baseUrl+'/products');
@@ -60,10 +71,10 @@ export default createStore({
         let {data} = await axios.post(baseUrl + '/products', newProduct)
         commit ('setProducts', data)
         console.log(data);
+        // window.location.reload()
       }catch (error) {
         console.error('Error adding Product:', error)
       }
-      // window.location.reload()
     },
     async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
@@ -88,13 +99,22 @@ export default createStore({
       const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
       commit("setUsers", data);
     },
-    async addUser({ commit }, newUser) {
+    async addUser({ commit }, newUser){
       try {
         let {data} = await axios.post(baseUrl + '/users', newUser)
         commit ('setUsers', data)
         console.log(data);
       }catch (error) {
-        console.error('Error adding Product:', error)
+        console.error('Error adding user:', error)
+      }
+    },
+    async signup({ commit }, newUser) {
+      try {
+        let {data} = await axios.post(baseUrl + '/signup', newUser)
+        commit ('setUsers', alert(data.msg))
+        console.log(data);
+      }catch (error) {
+        console.error('Error adding user:', error)
       }
     },
     async editUser({commit},update){
@@ -113,14 +133,13 @@ export default createStore({
       router.push('/')
       // window.location.reload()
       commit('setLogged', true)
+      setTimeout(()=> {
+        window.location.reload()
+      },10)
     },
-    async logOut(context){
-      let cookies = cookies.keys()
-      console.log(cookies)
-      cookies.remove('jwt')
-      window.location.reload()
-      let { data } = await axios.delete(baseUrl + '/logout')
-      alert(data.msg)
+    async editUserProfile({commit},edit){
+      const {data} = await axios.patch(baseUrl+'/users/user',edit)
+      commit("setUser", data);
     },
     //cart
     async addCart({commit},newProduct){
@@ -128,37 +147,40 @@ export default createStore({
       commit("setCart",alert(data.msg));
      },
     async addCartByAdmin({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/cart/admin',newProduct)
+      const {data} = await axios.post(baseUrl+'/cart',newProduct)
       commit("setCart",alert(data.msg));
      },
      async getUserCart({commit}){
-      const {data} =  await axios.get(baseUrl+'/Cart/user')
-      console.log(data);
-      commit("setCart", data);
-     },
-     async getCarts({commit}){
-      const {data} =  await axios.get(baseUrl+'/cart')
+      const {data} =  await axios.get(baseUrl+'/cart/user')
       commit("setCart",data);
-     },
+     },async getCarts({ commit }) {
+      try {
+        const response = await axios.get(baseUrl + '/cart');
+        const data = response.data;
+        commit("setCart", data);
+      } catch (error) {
+        // Handle the error appropriately, for example, logging or displaying a message to the user.
+        console.error('Error fetching carts:', error);
+        // Optionally, you can commit an empty cart or handle the error in another way.
+        commit("setCart", []);
+      }
+    },    
      async editCart({commit},update){
       const {data} = await axios.patch(baseUrl+'/cart/'+update.id,update)
       commit("setCart", data);
     },
-    async deleteCart({commit},orderID){
-      const {data} = await axios.delete(baseUrl+'/cart/'+orderID)
+    async deleteCart({commit},userID){
+      const {data} = await axios.delete(baseUrl+'/cart/'+userID)
       commit("setCart", data);
     },
     async deleteCartItem({commit},prodID){
-      console.log('this is in the store'+prodID);
       const {data} = await axios.delete(baseUrl+'/cart/user/'+prodID)
-      window.Location.reload()
       commit("setCart", data);
     },
     async checkout({commit}){
       const {data} = await axios.delete(baseUrl+'/cart')
-      commit("setCart", data);
-      alert(data.msg)
-      router.push('/products')
+      commit("setCart", alert(data.msg))
+      router.push('/products');
     }
   },
   modules: {

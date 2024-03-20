@@ -23,7 +23,7 @@
                             <router-link class="nav-link" to="/checkout">Checkout</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/admin">Admin</router-link>
+                            <router-link v-if="$store.state.adminIs === true" class="nav-link" to="/admin">Admin</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/contact">Contact</router-link>
@@ -52,6 +52,9 @@ export default {
         hasJWT(){
             return !!this.$cookies.get('jwt')
         },
+    },
+    created() {
+        this.$store.dispatch('getUserRole');
     },
     methods: {
         logOut(){
