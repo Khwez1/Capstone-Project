@@ -1,10 +1,23 @@
-import { goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, goPatchUserProfile, logIn, } from "../models/users.js";
+import { goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser, goPatchUserProfile, getUserRoleFromDatabase, logIn, } from "../models/users.js";
 import bcrypt from 'bcrypt';
 export default {
 //users table fuction
     getUsers: async(req,res)=>{
         res.send(await goGetUsers())
     },
+
+    getUserRole: async (req, res) => {
+        try {
+          const emailAdd = req.emailAdd;
+          const role = await getUserRoleFromDatabase(emailAdd);
+          console.log(role);
+          const isAdmin = role === 'admin';
+          res.send({ isAdmin });
+        } catch (error) {
+          console.error('Error getting user role:', error);
+          res.status(500).send('Internal Server Error');
+        }
+      },
 
     getUser: async(req,res)=>{
         const emailAdd = req.emailAdd;
@@ -87,8 +100,8 @@ export default {
         res.send(await goGetUsers());
     },
     
-//Sign up feature
-postUser: async (req, res) => {
+    //Sign up feature
+    postUser: async (req, res) => {
     const { firstName, lastName, userRole, emailAdd, Password } = req.body;
     try {
         // Hash the password

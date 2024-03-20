@@ -1,4 +1,4 @@
-import { logIn, getUserInfoFromDatabase } from "../models/users.js";
+import { logIn } from "../models/users.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 //login feature

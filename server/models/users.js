@@ -76,13 +76,13 @@ const logIn = async(emailAdd)=> {
     return Password
 };
 
-const getUserInfoFromDatabase = async (emailAdd) => {
-    const [[result]] = await pool.query(`
-    SELECT * 
+const getUserRoleFromDatabase = async (emailAdd) => {
+    const [[{userRole}]] = await pool.query(`
+    SELECT userRole 
     FROM users 
     WHERE emailAdd = ?
     `, [emailAdd])
-    return result
+    return userRole
 };
 
-export {  logIn, goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser,goPatchUserProfile, getUserInfoFromDatabase }
+export {  logIn, goGetUsers, goGetUser, goGetUserByID, goPostUser, goDeleteUser, goPatchUser,goPatchUserProfile, getUserRoleFromDatabase }
