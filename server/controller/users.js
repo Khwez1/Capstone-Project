@@ -54,7 +54,7 @@ export default {
         const email = req.emailAdd;
         
         const [user] = await goGetUser(email);
-
+        
         let { firstName, lastName, userRole, emailAdd, Password } = req.body;
 
         firstName ? firstName=firstName: {firstName} = user

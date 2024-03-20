@@ -7,7 +7,6 @@ const authenticate = (req,res,next) => {
     // console.log(tokenInHeader);
     jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user)=>{
         if(err)return res.sendStatus(403)
-        req.userInfo = req.userInfo 
         req.user = user
         req.emailAdd = user.emailAdd;
     next()

@@ -1,3 +1,4 @@
+
 import  {pool}  from "../config/config.js"
 //Users table functions
 const goGetUsers= async()=>{
