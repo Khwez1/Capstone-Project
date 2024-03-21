@@ -5,22 +5,23 @@ export default {
     getUsers: async(req,res)=>{
         res.send(await goGetUsers())
     },
-
+    
     getUserRole: async (req, res) => {
         try {
           const emailAdd = req.emailAdd;
           const role = await getUserRoleFromDatabase(emailAdd);
-          console.log(role);
+        //   console.log(role);
           const isAdmin = role === 'admin';
           res.send({ isAdmin });
         } catch (error) {
           console.error('Error getting user role:', error);
           res.status(500).send('Internal Server Error');
         }
-      },
+    },
 
     getUser: async(req,res)=>{
         const emailAdd = req.emailAdd;
+        console.log(emailAdd);
         res.send(await goGetUser(emailAdd))
     },
 
@@ -113,11 +114,11 @@ export default {
         res.send({
             msg: "You have created an account"
         });
-    } catch (error) {
+        } catch (error) {
         console.error("Error creating account:", error);
         res.status(500).send({ error: "An error occurred while creating the account" });
-    }
-},
+        }
+    },
 // log in feature
     postLogIn: async(req,res)=> {
         const {emailAdd, Password} = req.body;

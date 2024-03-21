@@ -23,11 +23,10 @@ const certificate = async(req,res,next) => {
                 msg: 'You have logged in! YAY!',
             })
 
-
             next();
 
         }else{
-            res.send({msg: 'The emailAdd or password is incorrect'})
+            res.status(401).send({msg: 'The emailAdd or password is incorrect'})
         }
     })
 }

@@ -63,7 +63,7 @@ export default {
             const { userID, prodID, quantity } = req.body;
             
             await goPostCart(userID, prodID, quantity);
-
+            console.log(userID,prodID,quantity);
             res.send({ msg: 'Product added to cart successfully' });
         }catch (error) {
             console.error('Error:', error);
