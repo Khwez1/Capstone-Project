@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '@/router'
+import Swal from 'sweetalert2'
 axios.defaults.withCredentials = true
 const baseUrl = 'http://localhost:3376'
 export default createStore({
@@ -69,20 +70,74 @@ export default createStore({
     async addProduct({ commit }, newProduct) {
       try {
         let {data} = await axios.post(baseUrl + '/products', newProduct)
-        commit ('setProducts', data)
         console.log(data);
-        // window.location.reload()
+        Swal.fire({
+          title: 'Product Added Successfully',
+          text: 'The product has been added successfully.',
+          icon: 'success',
+          timer: 3000,
+          showConfirmButton: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+          commit ('setProducts', data)
+          setTimeout(() => {
+            window.location.reload()
+          },4)
+          }
+        });
       }catch (error) {
         console.error('Error adding Product:', error)
       }
     },
     async deleteProd({commit},id){
       const {data} = await axios.delete(baseUrl+'/products/'+id)
+      Swal.fire({
+        title: 'Product Deleted Successfully',
+        text: 'The product has been deleted successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
       commit("setProducts", data);
+      setTimeout(() =>{
+        window.location.reload()
+      },4)
+      }
+      })
     },
     async editProd({commit},update){
-      const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
+    try{ const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
+      Swal.fire({
+        title: 'Product Edited Successfully',
+        text: 'The product has been edited successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
       commit("setProducts", data);
+      setTimeout(() =>{
+        window.location.reload()
+      },4)
+      }
+      })
+    } catch (error) {
+      // Display error message using SweetAlert if user addition fails
+      if (error.response) {
+          // Handling error response from backend
+          Swal.fire({
+              title: 'Error editing product',
+              text: error.response.data.error || 'An error occurred while editing product',
+              icon: 'error',
+              timer: 3000,
+              showConfirmButton: true
+          });
+      } else {
+          // Handling other types of errors
+          console.error('Error adding user:', error);
+        }
+    }
     },
     //users 
     async getUsers({commit}){
@@ -96,64 +151,264 @@ export default createStore({
       commit("setUser", data);
     },
     async editUser({commit},update){
-      const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
+    try{ const {data} = await axios.patch(baseUrl+'/products/'+update.id,update)
+      Swal.fire({
+        title: 'User Edited Successfully',
+        text: 'The product has been Edited successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
       commit("setUsers", data);
-    },
-    async addUser({ commit }, newUser){
-      try {
-        let {data} = await axios.post(baseUrl + '/users', newUser)
-        commit ('setUsers', data)
-        console.log(data);
-      }catch (error) {
-        console.error('Error adding user:', error)
+      setTimeout(() =>{
+        window.location.reload()
+      },4)
+        }
+      })
+    } catch (error) {
+      // Display error message using SweetAlert if user addition fails
+      if (error.response) {
+          // Handling error response from backend
+          Swal.fire({
+              title: 'Error editing User',
+              text: error.response.data.error || 'An error occurred while editing user',
+              icon: 'error',
+              timer: 3000,
+              showConfirmButton: true
+          });
+      } else {
+          // Handling other types of errors
+          console.error('Error adding user:', error);
       }
+    }
     },
-    async signup({ commit }, newUser) {
+    async addUser({ commit }, newUser) {
       try {
-        let {data} = await axios.post(baseUrl + '/signup', newUser)
-        commit ('setUsers', alert(data.msg))
-        console.log(data);
-      }catch (error) {
-        console.error('Error adding user:', error)
+          let { data } = await axios.post(baseUrl + '/users', newUser);
+          console.log(data);
+          Swal.fire({
+              title: 'User Added Successfully',
+              text: 'The user has been added successfully.',
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              commit('setUsers', data);
+              setTimeout(() => {
+                window.location.reload();
+              },4)
+            }
+          });
+      } catch (error) {
+          // Display error message using SweetAlert if user addition fails
+          if (error.response) {
+              // Handling error response from backend
+              Swal.fire({
+                  title: 'Error Adding User',
+                  text: error.response.data.error || 'An error occurred while adding user',
+                  icon: 'error',
+                  timer: 3000,
+                  showConfirmButton: true
+              });
+          } else {
+              // Handling other types of errors
+              console.error('Error adding user:', error);
+          }
       }
     },
     async editUser({commit},update){
       const {data} = await axios.patch(baseUrl+'/users/'+update.id,update)
-      commit("setUsers", data);
+      Swal.fire({
+        title: 'User edited Successfully',
+        text: 'The user has been edited successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+        commit("setUsers", data);
+        setTimeout(()=>{
+          window.location.reload()
+        },4)
+        }
+      })
     },
     async deleteUser({commit},userID){
       const {data} = await axios.delete(baseUrl+'/users/'+userID)
+      Swal.fire({
+        title: 'User Deleted Successfully',
+        text: 'The user has been deleted successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
       commit("setUsers", data);
+      setTimeout(()=>{
+        window.location.reload()
+      },4)
+      }
+    })
     },
     //Sign Up and Log In
-    async loginUser({commit}, currentUser){
-      let {data} = await axios.post(baseUrl + '/login', currentUser)
-      $cookies.set('jwt', data.token)
-      alert(data.msg)
-      router.push('/')
-      // window.location.reload()
-      commit('setLogged', true)
-      setTimeout(()=> {
-        window.location.reload()
-      },10)
+    async loginUser({ commit }, currentUser) {
+      try {
+          let { data } = await axios.post(baseUrl + '/login', currentUser);
+          $cookies.set('jwt', data.token);
+          Swal.fire({
+              title: 'Login Successful',
+              text: data.msg,
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: true
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  router.push('/');
+                  commit('setLogged', true);
+                  setTimeout(() => {
+                      window.location.reload();
+                  }, 4);
+              }
+          });
+        }catch (error) {
+          // Checking error.response for error details
+          if (error.response) {
+              // Handling error response with status code 401
+              Swal.fire({
+                  title: 'Login Failed',
+                  text: error.response.data.msg,
+                  icon: 'error',
+                  timer: 3000,
+                  showConfirmButton: true
+              });
+          } else {
+              // Handling other types of errors
+              console.error('Error occurred:', error.message);
+          }
+      }
     },
+    async signup({ commit }, newUser) {
+      try {
+          let { data } = await axios.post(baseUrl + '/signup', newUser);
+          commit('setUsers', data);
+          console.log(data);
+          // Display success message using SweetAlert
+          Swal.fire({
+              title: 'Signup Successful',
+              text: data.msg,
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: true
+          });
+      } catch (error) {
+          // Display error message using SweetAlert if signup fails
+          if (error.response) {
+              // Handling error response from backend
+              Swal.fire({
+                  title: 'Signup Failed',
+                  text: error.response.data.error || 'An error occurred while adding user',
+                  icon: 'error',
+                  timer: 3000,
+                  showConfirmButton: true
+              });
+          } else {
+              // Handling other types of errors
+              console.error('Error adding user:', error);
+          }
+      }
+    },  
     async editUserProfile({commit},edit){
       const {data} = await axios.patch(baseUrl+'/users/user',edit)
-      commit("setUser", data);
+      Swal.fire({
+        title: 'Update Successful',
+        text: 'your details have been updated',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+          commit("setUser", data);
+          setTimeout(()=>{
+            window.location.reload()
+          },4)
+        }
+      })
     },
     //cart
-    async addCart({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/cart/user',newProduct)
-      commit("setCart",alert(data.msg));
-     },
-    async addCartByAdmin({commit},newProduct){
-      const {data} = await axios.post(baseUrl+'/cart',newProduct)
-      commit("setCart",alert(data.msg));
-     },
+    async addCart({ commit }, newProduct) {
+      try {
+          const { data } = await axios.post(baseUrl + '/cart/user', newProduct);
+          commit("setCart", data.msg);
+          // Display success message using SweetAlert
+          Swal.fire({
+              title: 'Product Added to Cart',
+              text: data.msg,
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: true
+          }).then(() => {
+              // Reload the page after displaying the SweetAlert
+              window.location.reload();
+          });
+      } catch (error) {
+          // Display error message using SweetAlert if adding product to cart fails
+          if (error.response) {
+              // Handling error response from backend
+              Swal.fire({
+                  title: 'Error Adding Product to Cart',
+                  text: error.response.data.error || 'An error occurred while adding product to cart',
+                  icon: 'error',
+                  timer: 3000,
+                  showConfirmButton: true
+              });
+          } else {
+              // Handling other types of errors
+              console.error('Error adding product to cart:', error);
+          }
+      }
+    },  
+    async addCartByAdmin({ commit }, newProduct) {
+      try {
+          const { data } = await axios.post(baseUrl + '/cart/admin', newProduct);
+          commit("setCart", data.msg);
+          // Display success message using SweetAlert
+          Swal.fire({
+              title: 'Product Added to Cart',
+              text: data.msg,
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: true
+          }).then(() => {
+              // Reload the page after displaying the SweetAlert
+              window.location.reload();
+          });
+      } catch (error) {
+          // Display error message using SweetAlert if adding product to cart fails
+          if (error.response) {
+              // Handling error response from backend
+              Swal.fire({
+                  title: 'Error Adding Product to Cart',
+                  text: error.response.data.error || 'An error occurred while adding product to cart',
+                  icon: 'error',
+                  timer: 3000,
+                  showConfirmButton: true
+              });
+          } else {
+              // Handling other types of errors
+              console.error('Error adding product to cart:', error);
+          }
+      }
+    },
      async getUserCart({commit}){
-      const {data} =  await axios.get(baseUrl+'/cart/user')
-      commit("setCart",data);
-     },async getCarts({ commit }) {
+      try{
+        const {data} =  await axios.get(baseUrl+'/cart/user')
+        commit("setCart",data);
+      }catch(error){
+        commit("setCart", [])
+      }
+    },async getCarts({ commit }) {
       try {
         const response = await axios.get(baseUrl + '/cart');
         const data = response.data;
@@ -167,22 +422,77 @@ export default createStore({
     },    
      async editCart({commit},update){
       const {data} = await axios.patch(baseUrl+'/cart/'+update.id,update)
-      commit("setCart", data);
+      Swal.fire({
+        title: 'Cart Edited Successfully',
+        text: 'The cart has been edited successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+        commit("setCart", data);
+        setTimeout(()=>{
+          window.location.reload()
+        },4)
+      }
+    })
     },
     async deleteCart({commit},userID){
       const {data} = await axios.delete(baseUrl+'/cart/'+userID)
-      commit("setCart", data);
+      Swal.fire({
+        title: 'Cart Deleted Successfully',
+        text: 'The cart has been deleted successfully.',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+        commit("setCart", data);
+        setTimeout(()=>{
+          window.location.reload()
+        })
+      }
+    })
     },
     async deleteCartItem({commit},prodID){
       const {data} = await axios.delete(baseUrl+'/cart/user/'+prodID)
-      commit("setCart", data);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This Item will be removed from cart',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(71, 98, 218)',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, removed from cart',
+        position: 'top',
+      }).then((result) => {
+          if (result.isConfirmed) {
+        commit("setCart", data);
+        setTimeout(()=>{
+          window.location.reload()
+        },4)
+      }
+    })
     },
     async checkout({commit}){
       const {data} = await axios.delete(baseUrl+'/cart')
-      commit("setCart", alert(data.msg))
+      Swal.fire({
+        title: 'Cart Deleted Successfully',
+        text: data.msg,
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+      commit("setCart", data)
       router.push('/products');
+      setTimeout(()=>{
+        window.location.reload()
+      },4)
     }
+  })
   },
+},
   modules: {
   }
 })

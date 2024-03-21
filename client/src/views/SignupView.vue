@@ -20,11 +20,11 @@
 export default {
     data() {
         return {
-            firstName:'',
-            lastName:'',
-            userRole:'',
-            emailAdd:'',
-            Password:''
+            firstName:null,
+            lastName:null,
+            userRole:null,
+            emailAdd:null,
+            Password:null
         }
     },
     computed: {
