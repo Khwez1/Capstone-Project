@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <!-- <input name="userRole" placeholder="userRole" type="text"></input> -->
                         <input v-model="emailAdd" name="emailAdd" placeholder="Email..." type="text"></input>
-                        <input v-model="Password" name="Password" placeholder="Password..." type="text"></input>
+                        <input v-model="Password" name="Password" placeholder="Password..." type="Password"></input>
                         <button @click="loginUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">Submit</button>
                     </div>
                 </div>
