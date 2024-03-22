@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
     .route('/user')
-        .post(controller.getUser)
+        .get(controller.getUser)
         .patch(controller.patchUserProfile)
 router
     .route('/admin')
@@ -14,16 +14,11 @@ router
 router
     .route('/')
         .post(controller.postUser)
-
-router
-    .route('/ad')
-        .post(controller.getUsers)
+        .get(controller.getUsers)
     
 router
     .route('/:id')
         .delete(controller.deleteUser)
         .patch(controller.patchUser)
-
-        
 
 export default router

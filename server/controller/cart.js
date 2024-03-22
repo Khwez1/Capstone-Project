@@ -8,7 +8,6 @@ export default {
         try{
             const userID = await getUserIdFromDatabase(emailAdd)
             console.log(userID);
-
             // Assuming prodID and quantity are obtained from request body or query parameters
             const { prodID, quantity } = req.body;
             
@@ -72,16 +71,16 @@ export default {
     },
     patchCart: async(req,res)=>{
         const [cart] = await goGetCartById(+req.params.id)
+        console.log(cart);
+        let {UserID, quantity, prodID,} = req.body
 
-        let {userID, quantity, prodID,} = req.body
-
-        userID ? userID=userID: {userID} = cart
+        UserID ? UserID=UserID: {UserID} = cart
 
         quantity ? quantity=quantity: {quantity} = cart
 
         prodID ? prodID=prodID: {prodID} = cart
 
-        await goPatchCart(userID, quantity, prodID,+req.params.id)
+        await goPatchCart(UserID, quantity, prodID,+req.params.id)
         
         res.send(await goGetCarts())
     }

@@ -6,11 +6,12 @@ const certificate = async(req,res,next) => {
 
     const {emailAdd, Password} = req.body
     const hashedPassword = await logIn(emailAdd)
+    // console.log(typeof Password,typeof hashedPassword);
     bcrypt.compare(Password, hashedPassword, (err,result)=>{
         if(err) throw err
         if(result === true){
             const {emailAdd} = req.body
-            const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: ''})
+            const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: '1h'})
             
 
             // console.log(token);
