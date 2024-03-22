@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from '@/router'
 import Swal from 'sweetalert2'
 axios.defaults.withCredentials = true
-const baseUrl = 'https://capstone-project-fl4x.onrender.com'
+const baseUrl = 'http://localhost:3376'
 export default createStore({
   state: {
     product:[],
@@ -41,8 +41,10 @@ export default createStore({
   actions: {
     //admin
     async getUserRole({ commit }) {
+      let token = $cookies.get('jwt')
+      // console.log(token);
       try {
-        const response = await axios.get(baseUrl + '/users/admin');
+        const response = await axios.post(baseUrl + '/users/admin',{token:token});
         const {isAdmin} = response.data; // Assuming response.data directly represents admin status
         console.log(isAdmin);
         commit("setLogged", isAdmin); // Committing just the admin status
@@ -141,12 +143,14 @@ export default createStore({
     },
     //users 
     async getUsers({commit}){
-      const {data} =  await axios.get(baseUrl+'/users')
+      let token = $cookies.get('jwt')
+      const {data} =  await axios.post(baseUrl+'/users/ad',{token:token})
       console.log(data);
       commit("setUsers", data);
     },
-    async getUser({commit},email){
-      const {data} =  await axios.get(baseUrl+'/users/user')
+    async getUser({commit}){
+      let token = $cookies.get('jwt')
+      const {data} =  await axios.post(baseUrl+'/users/user',{token:token})
       console.log(data);
       commit("setUser", data);
     },
@@ -338,8 +342,10 @@ export default createStore({
     },
     //cart
     async addCart({ commit }, newProduct) {
-      try {
-          const { data } = await axios.post(baseUrl + '/cart/user', newProduct);
+      let token = $cookies.get('jwt')
+      console.log(token);
+      // try {
+          const { data } = await axios.post(baseUrl + '/cart/user',newProduct,{token:token});
           commit("setCart", data.msg);
           // Display success message using SweetAlert
           Swal.fire({
@@ -352,7 +358,7 @@ export default createStore({
               // Reload the page after displaying the SweetAlert
               window.location.reload();
           });
-      } catch (error) {
+      // } catch (error) {
           // Display error message using SweetAlert if adding product to cart fails
           if (error.response) {
               // Handling error response from backend
@@ -363,10 +369,10 @@ export default createStore({
                   timer: 3000,
                   showConfirmButton: true
               });
-          } else {
+          // } else {
               // Handling other types of errors
               console.error('Error adding product to cart:', error);
-          }
+          // }
       }
     },  
     async addCartByAdmin({ commit }, newProduct) {
@@ -402,8 +408,9 @@ export default createStore({
       }
     },
      async getUserCart({commit}){
+      let token = $cookies.get('jwt')
       try{
-        const {data} =  await axios.get(baseUrl+'/cart/user')
+        const {data} =  await axios.post(baseUrl+'/cart/user/cart',{token:token})
         commit("setCart",data);
       }catch(error){
         commit("setCart", [])
