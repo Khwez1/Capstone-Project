@@ -8,6 +8,7 @@ const authenticate = (req,res,next) => {
         if(err)return res.sendStatus(403)
         req.user = user
         req.emailAdd = user.emailAdd;
+        console.log(req.headers);
     next()
     })
 }
