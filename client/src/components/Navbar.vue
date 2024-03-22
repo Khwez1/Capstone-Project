@@ -1,15 +1,15 @@
 <template>
     <div id='navbar'>
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container-fluid">
                 <router-link class="navbar-brand" to="/signup">
-                    <img src="https://cdn-images.imagevenue.com/e3/5c/af/ME17RD1Q_o.png" style="height: 150px; width: 150px;">
+                    <img src="https://i.postimg.cc/ZRd8npQb/EN.png" style=" max-height: 100px; max-width: 150px; margin-left: 20px;">
                 </router-link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
                         <li class="nav-item">
                             <router-link class="nav-link" to="/">Home</router-link>
                         </li>
@@ -32,7 +32,7 @@
                             <router-link v-if="!hasJWT" class="nav-link" to="/login">Login</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/profile">Profile</router-link>
+                            <router-link v-if="hasJWT" class="nav-link" to="/profile">Profile</router-link>
                         </li>
                         <li class="nav-item">
                             <button v-if="hasJWT" @click="logOut" class="btn btn-outline-light">Log out</button>
@@ -128,4 +128,7 @@ nav a.router-link-exact-active {
     border-color: red
 }
 
+#navbar{
+    margin-bottom: 150px;
+}
 </style>

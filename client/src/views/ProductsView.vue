@@ -8,7 +8,7 @@
         <button class="category-btn" @click="toggleCategory">{{ category }}</button>
         <button class="sort-btn" @click="sortProducts">Sort</button>
       </div>
-      <div class="row justify-content-center text-center p-4">
+      <div v-if="products.length !== 0" class="row justify-content-center text-center p-4">
         <div v-for="item in filteredProducts" :key="item.prodID" class="card" style="border-color: red; margin-bottom: 20px;">
           <div class="card-head">
             <img :src="item.prodUrl" class="card-img-top">
@@ -25,13 +25,19 @@
           </div>
         </div>
       </div>
+      <div v-else>
+        <Spinner/>
+      </div>
     </div>
     <br>
   </div>
 </template>
-
 <script>
+import Spinner from '@/components/Spinner.vue'
 export default {
+  components :{
+    Spinner
+  },
   data() {
     return {
       searchTerm: '',
@@ -42,7 +48,7 @@ export default {
   },
   computed: {
     products() {
-      return this.$store.state.products; // Assuming you have products in your store state
+      return this.$store.state.products; 
     },
     filteredProducts() {
       let filtered = this.products;
@@ -60,7 +66,7 @@ export default {
 
       // Sort filter
       if (this.shouldSort) {
-        filtered.sort((a, b) => a.amount - b.amount); // Assuming you want to sort by amount, adjust this if necessary
+        filtered.sort((a, b) => a.amount - b.amount);
       }
 
       return filtered;
@@ -87,7 +93,7 @@ export default {
 /* Main Heading */
 .main-heading {
   text-align: center;
-  color: rgb(255, 255, 255); /* Make main heading white */
+  color: red; /* Make main heading white */
   margin-top: 20px;
   margin-bottom: 50px;
 }
@@ -165,7 +171,7 @@ export default {
 }
 
 img{
-  height: 230px; 
+  height: 260px; 
   width: 360px !important; 
   padding: 10px; 
   padding-right: 50px; 

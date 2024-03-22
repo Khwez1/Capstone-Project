@@ -440,8 +440,8 @@ export default createStore({
     async deleteCart({commit},userID){
       const {data} = await axios.delete(baseUrl+'/cart/'+userID)
       Swal.fire({
-        title: 'Cart Deleted Successfully',
-        text: 'The cart has been deleted successfully.',
+        title: 'Checkout Successful',
+        text: data.msg,
         icon: 'success',
         timer: 3000,
         showConfirmButton: true
@@ -450,7 +450,7 @@ export default createStore({
         commit("setCart", data);
         setTimeout(()=>{
           window.location.reload()
-        })
+        },4)
       }
     })
     },

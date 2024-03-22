@@ -1,16 +1,15 @@
 <template>
     <div id="signup">
-        <h1>This is an signup page</h1>
         <main>
             <div class="card mb-5 mt-5" style="width: 18rem;">
-                <h5 class="card-title mt-2">Sign Up</h5>
+                <h2 class="card-title mt-2">Sign Up</h2>
                 <div class="card-body">
-                    <input required v-model="firstName" name="firstName" placeholder="firstName" type="text"></input>
-                    <input required v-model="lastName" name="lastName" placeholder="lastName" type="text"></input>
-                    <input required v-model="userRole" name="userRole" placeholder="userRole" type="text"></input>
-                    <input required v-model="emailAdd" name="emailAdd" placeholder="emailAdd" type="text"></input>
-                    <input required v-model="Password" name="Password" placeholder="Password" type="text"></input>
-                    <button @click="registerUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">submit</button>
+                    <input required v-model="firstName" name="firstName" placeholder="FirstName..." type="text"></input>
+                    <input required v-model="lastName" name="lastName" placeholder="LastName..." type="text"></input>
+                    <input required v-model="userRole" name="userRole" placeholder="User Role..." type="text"></input>
+                    <input required v-model="emailAdd" name="emailAdd" placeholder="Email..." type="text"></input>
+                    <input required v-model="Password" name="Password" placeholder="Password..." type="text"></input>
+                    <button @click="registerUser" href="#" class="btn btn-primary mt-3" style="width: min-content;">Submit</button>
                 </div>
             </div>
         </main>
@@ -41,7 +40,7 @@ main{
     justify-content: center;
 }
 .card {
-    border: 1px solid red;
+    border: 3px solid red;
     background-color:black;
     text-align: center;
 }
@@ -58,15 +57,18 @@ input{
 #signup{
     text-align: center;
 }
-h5{
+h2{
     color: white;
     text-align: center;
 }
 .btn-primary{
-    background-color: red;
-    border: none;
+    background-color: red !important;
+    color: white !important;
+    font-weight: bold;
+    border-color: red;
 }
 .btn-primary:hover{
-    color:black;
+    color: red !important;
+    background-color: black !important;
 }
 </style>
