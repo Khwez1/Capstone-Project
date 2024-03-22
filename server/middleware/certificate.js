@@ -10,7 +10,7 @@ const certificate = async(req,res,next) => {
         if(err) throw err
         if(result === true){
             const {emailAdd} = req.body
-            const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: '1h'})
+            const token = jwt.sign({emailAdd:emailAdd}, process.env.SECRET_KEY,{expiresIn: ''})
             
 
             // console.log(token);

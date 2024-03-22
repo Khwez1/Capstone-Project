@@ -14,9 +14,12 @@ router
 
 router
     .route('/user')
-        .get(controller.getUserCart)
         .post(controller.postCart)
         
+router
+    .route('/user/cart')
+        .post(controller.getUserCart)
+
 router
     .route('/user/:id')
         .delete(controller.DeleteFromCart)

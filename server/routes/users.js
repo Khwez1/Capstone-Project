@@ -5,16 +5,19 @@ const router = express.Router();
 
 router
     .route('/user')
-        .get(controller.getUser)
+        .post(controller.getUser)
         .patch(controller.patchUserProfile)
 router
     .route('/admin')
-        .get(controller.getUserRole)
+        .post(controller.getUserRole)
 
 router
     .route('/')
-        .get(controller.getUsers)
         .post(controller.postUser)
+
+router
+    .route('/ad')
+        .post(controller.getUsers)
     
 router
     .route('/:id')
