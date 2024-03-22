@@ -27,7 +27,7 @@ const app=express()
 
 app.use(cors(
     { 
-      origin: 'http://localhost:8080',
+      origin: 'https://capstone-project-55c13.web.app',
       credentials: true
     }
 ))
