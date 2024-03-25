@@ -163,7 +163,7 @@
           <td>{{cart.orderID}}</td>
           <td>{{cart.quantity}}</td>
           <td>{{cart.prodID}}</td>
-          <td>{{cart.userID}}</td>
+          <td>{{cart.UserID}}</td>
           <td>
             <button @click="editCart(cart.orderID)">Edit</button>
             <button @click="deleteCart(cart.orderID)">Delete</button>
@@ -190,7 +190,7 @@ export default {
       userRole: null,
       emailAdd: null,
       Password: null,
-      userID: null,
+      UserID: null,
       prodID: null,
     };
   },
@@ -231,10 +231,11 @@ export default {
     editCart(orderID) {
       let edit = {
         id: orderID,
-        userID: this.userID,
+        userID: this.UserID,
         quantity: this.quantity,
         prodID: this.prodID,
       };
+      console.log(this.UserID);
       this.$store.dispatch('editCart', edit);
     },
   },

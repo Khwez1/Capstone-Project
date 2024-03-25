@@ -2,8 +2,10 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '@/router'
 import Swal from 'sweetalert2'
+import { useCookies } from 'vue-cookies'
 axios.defaults.withCredentials = true
-const baseUrl = 'http://localhost:3376'
+axios.defaults.params = {token:$cookies.get('jwt')}
+const baseUrl = 'https://capstone-project-fl4x.onrender.com'
 export default createStore({
   state: {
     product:[],
@@ -41,10 +43,9 @@ export default createStore({
   actions: {
     //admin
     async getUserRole({ commit }) {
-      let token = $cookies.get('jwt')
       // console.log(token);
       try {
-        const response = await axios.post(baseUrl + '/users/admin',{token:token});
+        const response = await axios.post(baseUrl + '/users/admin');
         const {isAdmin} = response.data; // Assuming response.data directly represents admin status
         console.log(isAdmin);
         commit("setLogged", isAdmin); // Committing just the admin status
@@ -143,14 +144,12 @@ export default createStore({
     },
     //users 
     async getUsers({commit}){
-      let token = $cookies.get('jwt')
-      const {data} =  await axios.post(baseUrl+'/users/ad',{token:token})
+      const {data} =  await axios.get(baseUrl+'/users',)
       console.log(data);
       commit("setUsers", data);
     },
     async getUser({commit}){
-      let token = $cookies.get('jwt')
-      const {data} =  await axios.post(baseUrl+'/users/user',{token:token})
+      const {data} =  await axios.get(baseUrl+'/users/user')
       console.log(data);
       commit("setUser", data);
     },
@@ -189,7 +188,7 @@ export default createStore({
     },
     async addUser({ commit }, newUser) {
       try {
-          let { data } = await axios.post(baseUrl + '/users', newUser);
+          let { data } = await axios.post(baseUrl + '/users',newUser);
           console.log(data);
           Swal.fire({
               title: 'User Added Successfully',
@@ -260,7 +259,6 @@ export default createStore({
     async loginUser({ commit }, currentUser) {
       try {
           let { data } = await axios.post(baseUrl + '/login', currentUser);
-          $cookies.set('jwt', data.token);
           Swal.fire({
               title: 'Login Successful',
               text: data.msg,
@@ -269,6 +267,7 @@ export default createStore({
               showConfirmButton: true
           }).then((result) => {
               if (result.isConfirmed) {
+                $cookies.set('jwt',data.token)
                   router.push('/');
                   commit('setLogged', true);
                   setTimeout(() => {
@@ -342,10 +341,9 @@ export default createStore({
     },
     //cart
     async addCart({ commit }, newProduct) {
-      let token = $cookies.get('jwt')
-      console.log(token);
-      // try {
-          const { data } = await axios.post(baseUrl + '/cart/user',newProduct,{token:token});
+      // console.log(token);
+      try {
+          const { data } = await axios.post(baseUrl + '/cart/user',newProduct);
           commit("setCart", data.msg);
           // Display success message using SweetAlert
           Swal.fire({
@@ -358,7 +356,7 @@ export default createStore({
               // Reload the page after displaying the SweetAlert
               window.location.reload();
           });
-      // } catch (error) {
+      } catch (error) {
           // Display error message using SweetAlert if adding product to cart fails
           if (error.response) {
               // Handling error response from backend
@@ -369,15 +367,15 @@ export default createStore({
                   timer: 3000,
                   showConfirmButton: true
               });
-          // } else {
+          } else {
               // Handling other types of errors
               console.error('Error adding product to cart:', error);
-          // }
+          }
       }
     },  
     async addCartByAdmin({ commit }, newProduct) {
       try {
-          const { data } = await axios.post(baseUrl + '/cart/admin', newProduct);
+          const { data } = await axios.post(baseUrl + '/cart/admin',newProduct);
           commit("setCart", data.msg);
           // Display success message using SweetAlert
           Swal.fire({
@@ -408,9 +406,8 @@ export default createStore({
       }
     },
      async getUserCart({commit}){
-      let token = $cookies.get('jwt')
       try{
-        const {data} =  await axios.post(baseUrl+'/cart/user/cart',{token:token})
+        const {data} =  await axios.get(baseUrl+'/cart/user')
         commit("setCart",data);
       }catch(error){
         commit("setCart", [])
@@ -419,6 +416,7 @@ export default createStore({
       try {
         const response = await axios.get(baseUrl + '/cart');
         const data = response.data;
+        console.log(data);
         commit("setCart", data);
       } catch (error) {
         // Handle the error appropriately, for example, logging or displaying a message to the user.
@@ -444,10 +442,11 @@ export default createStore({
       }
     })
     },
-    async deleteCart({commit},userID){
-      const {data} = await axios.delete(baseUrl+'/cart/'+userID)
+    async deleteCart({commit},orderID){
+      console.log(orderID);
+      const {data} = await axios.delete(baseUrl+'/cart/'+orderID)
       Swal.fire({
-        title: 'Checkout Successful',
+        title: 'Cart Deleted Successfully',
         text: data.msg,
         icon: 'success',
         timer: 3000,
@@ -462,6 +461,7 @@ export default createStore({
     })
     },
     async deleteCartItem({commit},prodID){
+      console.log(prodID);
       const {data} = await axios.delete(baseUrl+'/cart/user/'+prodID)
       Swal.fire({
         title: 'Are you sure?',
@@ -484,7 +484,7 @@ export default createStore({
     async checkout({commit}){
       const {data} = await axios.delete(baseUrl+'/cart')
       Swal.fire({
-        title: 'Cart Deleted Successfully',
+        title: 'Checkout Sucessful',
         text: data.msg,
         icon: 'success',
         timer: 3000,
